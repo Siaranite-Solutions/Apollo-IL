@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apollo-IL", "Apollo-IL\Apollo-IL.csproj", "{318E3D33-776A-49C2-9B8D-55A22179B6C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apollo_IL", "Apollo-IL\Apollo_IL.csproj", "{318E3D33-776A-49C2-9B8D-55A22179B6C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
