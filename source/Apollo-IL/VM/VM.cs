@@ -16,7 +16,7 @@ namespace Apollo_IL
 		}
 
 		/// <summary>
-		/// 
+		/// Address mode for current operation
 		/// </summary>
 		private AddressMode opMode;
 
@@ -27,54 +27,52 @@ namespace Apollo_IL
 		public byte PC;
 		/// <summary>
 		/// Stack Pointer
-		///
+		/// </summary>
 		public byte SP;
 		/// <summary>
 		/// Instruction Pointer
 		/// </summary>
 		public byte IP;
 		/// <summary>
-		/// 
+		/// Stack segment
 		/// </summary>
 		public byte SS;
 		/// <summary>
-		/// 
+		/// General purpose register
+		/// Lower byte of the A register
 		/// </summary>
 		public byte AL;
 		/// <summary>
-		/// 
+		/// General purpose register
+		/// Higher byte of the A register
 		/// </summary>
 		public byte AH;
 		/// <summary>
-		/// 
+		/// General purpose register
+		/// Lower byte of the B register
 		/// </summary>
 		public byte BL;
 		/// <summary>
-		/// 
+		/// General purpose register
+		/// Higher byte of the B register
 		/// </summary>
 		public byte BH;
 		/// <summary>
-		/// 
+		/// General purpose register
+		/// Lower byte of the C regiser
 		/// </summary>
 		public byte CL;
 		/// <summary>
-		/// 
+		/// General purpose register
+		/// Higher byte of the C register
 		/// </summary>
 		public byte CH;
 		/// <summary>
-		/// 
-		/// </summary>
-		public byte DL;
-		/// <summary>
-		/// 
-		/// </summary>
-		public byte DH;
-		/// <summary>
-		/// 
+		/// 32-bit general purpose register
 		/// </summary>
 		public Int32 Y;
 		/// <summary>
-		/// 
+		/// 32-bit general purpose register
 		/// </summary>
 		public Int32 X;
 		#endregion
@@ -128,5 +126,16 @@ namespace Apollo_IL
 				PC++;
 			}
 		}
+		/// <summary>
+		/// Retrieves a bit from a specified byte
+		/// false if 0, true if 1
+		/// </summary>
+		/// <param name="b"></param>
+		/// <param name="bitNumber"></param>
+		/// <returns></returns>
+		private bool GetBit(byte b, int bitNumber)
+        {
+            return ((int)b & (1 << bitNumber)) != 0;
+        }
     }
 }
