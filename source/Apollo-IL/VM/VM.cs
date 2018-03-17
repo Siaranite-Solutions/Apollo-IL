@@ -137,16 +137,34 @@ namespace Apollo_IL
 				return (int)PC;
 			else if (Reg == (byte)0xF1)
 				return (int)IP;
-				else if (Reg == (byte)0xF2)
+			else if (Reg == (byte)0xF2)
 				return (int)SP;
-				else if (Reg == (byte)0xF3)
+			else if (Reg == (byte)0xF3)
 				return (int)SS;
-				else if (Reg == (byte)0xF4)
+			else if (Reg == (byte)0xF4)
 				return GetSplit('A');
-				else if (Reg == (byte)0xF5)
-				return (int)1;
-				else if (Reg == (byte)0xF6)
-				return (int)2;
+			else if (Reg == (byte)0xF5)
+				return AL;
+			else if (Reg == (byte)0xF6)
+				return AH;
+			else if (Reg == (byte)0xF7)
+				return GetSplit('B');
+			else if (Reg == (byte)0xF8)
+				return BL;
+			else if (Reg == (byte)0xF9)
+				return BH;
+			else if (Reg == (byte)0xFA)
+				return GetSplit('C');
+			else if (Reg == (byte)0xFB)
+				return CL;
+			else if (Reg == (byte)0xFC)
+				return CH;
+			else if (Reg == (byte)0xFD)
+				return X;
+			else if (Reg == (byte)0xFE)
+				return Y;
+			else
+				return 0;
 		}
 		/// <summary>
 		/// Gets the current address mode from the specified byte
@@ -196,7 +214,7 @@ namespace Apollo_IL
             {
                 sixbits[i] = GetBit(b, i);
             }
-            return BitOperations.getIntegerValue(sixbits);
+            return getIntegerValue(sixbits);
         }
         private bool[] twobits;
 

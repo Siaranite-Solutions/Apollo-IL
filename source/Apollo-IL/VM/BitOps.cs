@@ -33,6 +33,11 @@ namespace Apollo_IL
         {
             return ((int)b & (1 << bitNumber)) != 0;
         }
+        /// <summary>
+        /// Retrieves the integer value of an array of booleans
+        /// </summary>
+        /// <param name="bits"></param>
+        /// <returns>Integer value of the specified array</returns>
         public static int getIntegerValue(bool[] bits)
         {
             int ans = 0;
@@ -59,14 +64,72 @@ namespace Apollo_IL
             }
             return ret;
         }
-        
-        public static int combineBytes(byte one, byte two)
+        /// <summary>
+        /// Combines the specified bytes into a single integer value and returns it
+        /// </summary>
+        /// <param name="one"></param>
+        /// <param name="two"></param>
+        /// <returns>Integer of the two bytes combined</returns>
+        public static int CombineBytes(byte one, byte two)
         {
             bool[] sixteenBit = new bool[16];
             bool[] binaryOne = getBinaryValue(one);
             bool[] binaryTwo = getBinaryValue(two);
             sixteenBit = Conversions.BooleanArray.JoinBooleans(binaryOne, binaryTwo);
             return getIntegerValue(sixteenBit);
+        }
+        /// <summary>
+        /// Stores content into registers, splitting the content into the two register halves if needed
+        /// </summary>
+        /// <param name="register"></param>
+        /// <param name="content"></param>
+        public void SetSplit(char register, int content)
+        {
+            byte lower;
+            byte higher;
+            if (content > 255)
+            {
+                lower = (byte) 255;
+                higher = (byte) (content - 255);
+            }
+            else
+            {
+                lower= (byte) content;
+                if (register == 'A')
+                {
+                    AL = lower;
+                }
+                else if (register == 'B')
+                {
+                    BL = lower;
+                }
+                else if (register == 'C')
+                {
+                    CL = lower;
+                }
+            }
+        }
+        /// <summary>
+        /// Retrieves the data stored in each register half (AL/AH, BL/BH, CL/CH), returning the integer value
+        /// If the specified register isn't A/B/C, throw a new exception.
+        /// </summary>
+        /// <param name="register"></param>
+        /// <returns>Two halves of the specified register combined into one integer</returns>
+        public int GetSplit(char register)
+        {
+            if (register == 'A')
+            {
+                return CombineBytes(AL, AH);
+            }
+            else if (register == 'B')
+            {
+                return CombineBytes(BL, BH);
+            }
+            else if (register == 'C')
+            {
+                return CombineBytes(CL, CH);
+            }
+            throw new Exception("There was an internal error and the VM has closed to protect your data. Please report this to the application developer");
         }
     } 
 }
