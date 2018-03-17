@@ -15,7 +15,16 @@ namespace Apollo_IL.StandardLib
             {
                 if (ParentVM.AL == 0x01)
                 {
-
+                    Globals.console.Write((char)ParentVM.AH);
+                    #if DEBUG
+                    Globals.console.WriteLine(" 0x01");
+                    #endif
+                }
+                else if (ParentVM.AL == 0x02)
+                {
+                    string ToPrint = "";
+                    byte[] forconversion = new byte[ParentVM.GetSplit('B')];
+                    toConvert = ParentVM.ram.GetSection(ParentVM.X, ParentVM.GetSplit('B'));
                 }
             }
             #endregion

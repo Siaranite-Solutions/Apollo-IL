@@ -1,8 +1,10 @@
 ﻿using System;
+using Apollo_IL.StandardLib;
+using Apollo_IL.Conversions;
 
 namespace Apollo_IL
 {
-    public class VM
+    public partial class VM
     {
 		/// <summary>
 		/// enum of the Address Modes
@@ -106,13 +108,73 @@ namespace Apollo_IL
 		/// <summary>
 		/// Constructor for a new instance of a virtual machine, specifiying the executable to run and the VM's amount of RAM.
 		/// </summary>
-		/// <param name="executable"></param>
-		/// <param name="ramsize"></param>
+		/// <param name="executable">The executing binary's size must be greater than the ramsize</param>
+		/// <param name="ramsize">The size of virtual memory in bytes must be larger than the size of the executable binary</param>
 		public VM(byte[] executable, int ramsize)
 		{
 			ram = new RandomAccessMemory(ramsize);
+			// Declares the six-bit instruction to a new boolean array of length 9 
+			sixbits = new bool[9];
+			// Declares the two-bit parameter addressing mode to a new boolean array of length 2
+			twobits = new bool[2];
+			// Sets the instruction pointer to 0
+			IP = 0;
+			// Sets the program counter to 1
+			PC = 1;
+			// Sets the parent virtual machine for the standard library to this instance
+			KernelInterrupts.ParentVM = this;
 			//Loads the executable into the Virtual Machine's memory through LoadApplication()
 			LoadApplication(executable);
+		}
+		/// <summary>
+		/// Address mode initially set to 0, for Register:Register
+		/// </summary>
+		private int AdMode = 0;
+
+		private int GetRegister(byte Reg)
+		{
+			if (Reg == (byte)0xF0)
+				return (int)PC;
+			else if (Reg == (byte)0xF1)
+				return (int)IP;
+				else if (Reg == (byte)0xF2)
+				return (int)SP;
+				else if (Reg == (byte)0xF3)
+				return (int)SS;
+				else if (Reg == (byte)0xF4)
+				return GetSplit('A');
+				else if (Reg == (byte)0xF5)
+				return (int)1;
+				else if (Reg == (byte)0xF6)
+				return (int)2;
+		}
+		/// <summary>
+		/// Gets the current address mode from the specified byte
+		/// </summary>
+		/// <param name="b">Address mode byte</param>
+		private void GetAddressMode(byte b)
+		{
+			AdMode = GetLastTwo(b);
+			if (AdMode == 0)
+			{
+				opMode = AddressMode.RegReg;
+			}
+			else if (AdMode == 1)
+			{
+				opMode = AddressMode.RegVal;
+			}
+			else if (AdMode == 2)
+			{
+				opMode = AddressMode.ValVal;
+			}
+			else if (AdMode == 3)
+			{
+				opMode = AddressMode.ValReg;
+			}
+			else
+			{
+				throw new Exception("<Critical Error!> Address mode at " + IP + " (" + AdMode + ") is invalid.");
+			}
 		}
 		/// <summary>
 		/// Executes the binary loaded into the Virtual Machine's memory
@@ -150,40 +212,4 @@ namespace Apollo_IL
             return ((int)b & (1 << bitNumber)) != 0;
         }
     }
-	static class BitOperations
-	{
-		public static bool getBit(byte b, int bitNumber)
-        {
-            return ((int)b & (1 << bitNumber)) != 0;
-        }
-        public static int getIntegerValue(bool[] bits)
-        {
-            int ans = 0;
-            for (int i = 0; i < bits.Length; i++)
-            {
-                if (bits[i] == true)
-                {
-                    ans += (int)Math.Pow(2, i);
-                }
-            }
-            return ans;
-        }
-        public static bool[] getBinaryValue(byte b)
-        {
-            bool[] ret = new bool[8];
-            for (int i = 0; i < 8; i++)
-            {
-                ret[i] = getBit(b, i);
-            }
-            return ret;
-        }
-        public static int combineBytes(byte one, byte two)
-        {
-            bool[] sixteenBit = new bool[16];
-            bool[] binaryOne = getBinaryValue(one);
-            bool[] binaryTwo = getBinaryValue(two);
-            sixteenBit = Conversions.BooleanArray.JoinBooleans(binaryOne, binaryTwo);
-            return getIntegerValue(sixteenBit);
-        }
-	}
 }
