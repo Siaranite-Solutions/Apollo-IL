@@ -6,6 +6,15 @@ namespace Apollo_IL
 {
     public partial class VM
     {
+		private bool LastLogic;
+		/// <summary>
+		/// Contains the byte value of the new Instruction Pointer
+		/// </summary>
+		private byte NewIP;
+		/// <summary>
+		/// Current instructions parameters
+		/// </summary>
+		private int[] parameters;
 		/// <summary>
 		/// enum of the Address Modes
 		/// </summary>
@@ -117,6 +126,8 @@ namespace Apollo_IL
 			sixbits = new bool[9];
 			// Declares the two-bit parameter addressing mode to a new boolean array of length 2
 			twobits = new bool[2];
+			// Defines the parameters integer array as an array of length 5
+			parameters = new int[5];
 			// Sets the instruction pointer to 0
 			IP = 0;
 			// Sets the program counter to 1
@@ -201,33 +212,94 @@ namespace Apollo_IL
 		{
 			while (ram.memory[IP] != 0x00)
 			{
-
+				/// <summary>
+				/// Gets the operation from the first six bytes of the instruction pointer
+				/// </summary>
+				/// <returns>operation from instruction pointer</returns>
+				byte opcode = (byte)GetFirstSix(ram.memory[IP]);
+				GetAddressMode(ram.memory[IP]);
+				//ParseOpCode(opcode);
 				IP = PC;
 				PC++;
 			}
 		}
-
+		/// <summary>
+        /// Retrieves the last two bits from a single byte (8 bits)
+        /// </summary>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        private int GetLastTwo(byte b)
+        {
+            byte c = 0;
+            for (int i = 7; i > 5; i--)
+            {
+                sixbits[i] = BitOps.GetBit(b, i);
+            }
+            return BitOps.GetIntegerValue(sixbits);
+        }
 		private bool[] sixbits;
         private int GetFirstSix(byte b)
         {
             for (int i = 0; i < 6; i++)
             {
-                sixbits[i] = GetBit(b, i);
+                sixbits[i] = BitOps.GetBit(b, i);
             }
-            return getIntegerValue(sixbits);
+            return BitOps.GetIntegerValue(sixbits);
         }
         private bool[] twobits;
 
 		/// <summary>
-		/// Retrieves a bit from a specified byte
-		/// false if 0, true if 1
-		/// </summary>
-		/// <param name="b"></param>
-		/// <param name="bitNumber"></param>
-		/// <returns></returns>
-		private bool GetBit(byte b, int bitNumber)
+        /// Stores content into registers, splitting the content into the two register halves if needed
+        /// </summary>
+        /// <param name="register"></param>
+        /// <param name="content"></param>
+        public void SetSplit(char register, int content)
         {
-            return ((int)b & (1 << bitNumber)) != 0;
+            byte lower;
+            byte higher;
+            if (content > 255)
+            {
+                lower = (byte) 255;
+                higher = (byte) (content - 255);
+            }
+            else
+            {
+                lower= (byte) content;
+                if (register == 'A')
+                {
+                    AL = lower;
+                }
+                else if (register == 'B')
+                {
+                    BL = lower;
+                }
+                else if (register == 'C')
+                {
+                    CL = lower;
+                }
+            }
+        }
+        /// <summary>
+        /// Retrieves the data stored in each register half (AL/AH, BL/BH, CL/CH), returning the integer value
+        /// If the specified register isn't A/B/C, throw a new exception.
+        /// </summary>
+        /// <param name="register"></param>
+        /// <returns>Two halves of the specified register combined into one integer</returns>
+        public int GetSplit(char register)
+        {
+            if (register == 'A')
+            {
+                return BitOps.CombineBytes(AL, AH);
+            }
+            else if (register == 'B')
+            {
+                return BitOps.CombineBytes(BL, BH);
+            }
+            else if (register == 'C')
+            {
+                return BitOps.CombineBytes(CL, CH);
+            }
+            throw new Exception("There was an internal error and the VM has closed to protect your data. Please report this to the application developer");
         }
     }
 }
