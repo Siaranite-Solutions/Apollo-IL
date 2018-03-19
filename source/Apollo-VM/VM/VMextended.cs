@@ -57,7 +57,7 @@ namespace Apollo_IL
                 else
                 {
                     // Parameter 2: WRONG ADDRESSING MODE
-                    throw new Exception("[CRITICAL ERROR] The adressing mode at "+IP+" ("+adMode+") is invalid for the MOV (0x01) instruction.");
+                    throw new Exception("[CRITICAL ERROR] The adressing mode at "+IP+" ("+ AdMode +") is invalid for the MOV (0x01) instruction.");
                 }
 
                 PC += 5;
@@ -95,7 +95,7 @@ namespace Apollo_IL
                 else
                 {
                     // WRONG ADDRESSING MODE
-                    throw new Exception("[CRITICAL ERROR] The adressing mode at " + IP + " (" + adMode + ") is invalid for the MOM (0x3B) instruction.");
+                    throw new Exception("[CRITICAL ERROR] The adressing mode at " + IP + " (" + AdMode + ") is invalid for the MOM (0x3B) instruction.");
                 }
 
                 PC += 5;
@@ -168,6 +168,71 @@ namespace Apollo_IL
                 throw new Exception("[ERROR] The instruction at " + IP + " (" + opcode + ") is not supported by this COSIL VM");
             }
             return NewIP = 0;
+        }
+        /// <summary>
+        /// Places content into a register, splitting if necessary
+        /// </summary>
+        /// <param name="register"></param>
+        /// <param name="content"></param>
+        private void SetRegister(byte register, int content)
+        {
+            if (register == (byte)0xF0)
+                PC = (byte)content;
+            else if (register == (byte)0xF1)
+                IP = (byte)content;
+            //ignore 0xF2 as it is SP and SP is read only
+            else if (register == (byte)0xF3)
+            {
+                SS = (byte)content;
+            }
+            else if (register == (byte)0xF4)
+            {                
+                SetSplit('A', content);
+            }
+            else if (register == (byte)0xF5)
+            {
+                AL = (byte)content;
+            }
+            else if (register == (byte)0xF6)
+            {                
+                AH = (byte)content;
+            }
+            else if (register == (byte)0xF7)
+            {
+                SetSplit('B', content);
+            }
+            else if (register == (byte)0xF8)
+            {   
+                BL = (byte)content;
+            }
+            else if (register == (byte)0xF9)
+            {                
+                BH = (byte)content;
+            }
+            else if (register == (byte)0xFA)
+            {
+                SetSplit('C', content);
+            }
+            else if (register == (byte)0xFB)
+            {
+                CL = (byte)content;
+            }
+            else if (register == (byte)0xFC)
+            {   
+                CH = (byte)content;
+            }
+            else if (register == (byte)0xFD)
+            {
+                X = content;
+            }
+            else if (register == (byte)0xFE)
+            {
+                Y = content;
+            }
+            else
+            {
+                throw new Exception("ERROR: The register " + register + " is not a register.");
+            }
         }
     }
 }

@@ -87,15 +87,7 @@ namespace Apollo_IL
 		/// </summary>
 		public Int32 X;
 		#endregion
-		
-
-		#region BitOperations
-		
-
-
-		#endregion
-
-
+	
 		/// <summary>
 		/// Loads the application as a byte array into the virtual machine's memory
 		/// </summary>
@@ -112,7 +104,9 @@ namespace Apollo_IL
 			ram.RAMLimit = (i + 1);
 
 		}
-
+		/// <summary>
+		/// This virtual machine's RAM
+		/// </summary>
 		public RandomAccessMemory ram;
 		/// <summary>
 		/// Constructor for a new instance of a virtual machine, specifiying the executable to run and the VM's amount of RAM.
@@ -141,7 +135,11 @@ namespace Apollo_IL
 		/// Address mode initially set to 0, for Register:Register
 		/// </summary>
 		private int AdMode = 0;
-
+		/// <summary>
+		/// Returns an integer value stored in a register
+		/// </summary>
+		/// <param name="Reg"></param>
+		/// <returns></returns>
 		private int GetRegister(byte Reg)
 		{
 			if (Reg == (byte)0xF0)
@@ -218,7 +216,7 @@ namespace Apollo_IL
 				/// <returns>operation from instruction pointer</returns>
 				byte opcode = (byte)GetFirstSix(ram.memory[IP]);
 				GetAddressMode(ram.memory[IP]);
-				//ParseOpCode(opcode);
+				ParseOpcode(opcode);
 				IP = PC;
 				PC++;
 			}
@@ -237,6 +235,9 @@ namespace Apollo_IL
             }
             return BitOps.GetIntegerValue(sixbits);
         }
+		/// <summary>
+		/// Stores the first six bits in a byte
+		/// </summary>
 		private bool[] sixbits;
         private int GetFirstSix(byte b)
         {
@@ -246,6 +247,9 @@ namespace Apollo_IL
             }
             return BitOps.GetIntegerValue(sixbits);
         }
+		/// <summary>
+		/// Stores the last two bits in a byte (byte - sixbits)
+		/// </summary>
         private bool[] twobits;
 
 		/// <summary>
@@ -279,6 +283,7 @@ namespace Apollo_IL
                 }
             }
         }
+
         /// <summary>
         /// Retrieves the data stored in each register half (AL/AH, BL/BH, CL/CH), returning the integer value
         /// If the specified register isn't A/B/C, throw a new exception.

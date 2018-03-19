@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Apollo_IL", "source\Apollo-IL\Apollo_IL.csproj", "{18D733AB-945B-4CB4-BEEE-BB700A96EC10}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apollo_IL", "source\Apollo-VM\Apollo_IL.csproj", "{F2C5086A-4D10-4A00-82B9-173D7496249E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIL-Runtime", "source\AIL-Runtime\AIL-Runtime.csproj", "{381E5440-C1CF-410C-B802-514C7CFFD3FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{18D733AB-945B-4CB4-BEEE-BB700A96EC10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{18D733AB-945B-4CB4-BEEE-BB700A96EC10}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{18D733AB-945B-4CB4-BEEE-BB700A96EC10}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{18D733AB-945B-4CB4-BEEE-BB700A96EC10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2C5086A-4D10-4A00-82B9-173D7496249E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2C5086A-4D10-4A00-82B9-173D7496249E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2C5086A-4D10-4A00-82B9-173D7496249E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2C5086A-4D10-4A00-82B9-173D7496249E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{381E5440-C1CF-410C-B802-514C7CFFD3FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{381E5440-C1CF-410C-B802-514C7CFFD3FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{381E5440-C1CF-410C-B802-514C7CFFD3FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{381E5440-C1CF-410C-B802-514C7CFFD3FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

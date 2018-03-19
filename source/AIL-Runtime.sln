@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2017
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIL-Runtime", "AIL-Runtime\AIL-Runtime.csproj", "{74C55334-0799-4F75-85B0-552BF64EFDDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apollo_IL", "Apollo-IL\Apollo_IL.csproj", "{84DA7FF7-3C8F-468A-B5DB-C46EE01AE5CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{74C55334-0799-4F75-85B0-552BF64EFDDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74C55334-0799-4F75-85B0-552BF64EFDDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74C55334-0799-4F75-85B0-552BF64EFDDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74C55334-0799-4F75-85B0-552BF64EFDDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84DA7FF7-3C8F-468A-B5DB-C46EE01AE5CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84DA7FF7-3C8F-468A-B5DB-C46EE01AE5CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84DA7FF7-3C8F-468A-B5DB-C46EE01AE5CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84DA7FF7-3C8F-468A-B5DB-C46EE01AE5CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
