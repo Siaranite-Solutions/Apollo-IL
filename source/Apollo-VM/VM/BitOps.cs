@@ -62,8 +62,8 @@ namespace Apollo_IL
             bool[] sixteenBit = new bool[16];
             bool[] binaryOne = GetBinaryValue(one);
             bool[] binaryTwo = GetBinaryValue(two);
-            sixteenBit = Conversions.BooleanArray.JoinBooleans(binaryOne, binaryTwo);
+            sixteenBit = BooleanArray.JoinBooleans(binaryOne, binaryTwo);
             return GetIntegerValue(sixteenBit);
         }
-    } 
+    }
 }

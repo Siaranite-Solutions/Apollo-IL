@@ -18,14 +18,14 @@ namespace Apollo_IL.Conversions
         /// <returns>Array two joined at the end of Array one</returns>
         public static bool[] JoinBooleans(bool[] bool_1, bool[] bool_2)
         {
-            bool[] ret = new bool[bool_1.Length + bool_2.Length];
-            for (int a = 0; a < bool_1.Length; a++)
+            bool[] ret = new bool[(bool_1.Length + bool_2.Length)];
+            for (int i = 0; i < bool_1.Length; i++)
             {
-                ret[a] = bool_1[a];
+                ret[i] = bool_1[i];
             }
-            for (int b = 0; b < bool_2.Length; b++)
+            for (int i = 0; i < bool_2.Length; i++)
             {
-                ret[(b + bool_1.Length)] = bool_2[b];
+                ret[(i + bool_1.Length)] = bool_2[i];
             }
             return ret;
         }

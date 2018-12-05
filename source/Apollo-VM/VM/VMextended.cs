@@ -6,6 +6,11 @@ namespace Apollo_IL
 {
     public partial class VM
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="startingIndex"></param>
+        /// <returns>Integet value</returns>
         private int Get32BitParameter(int startingIndex)
         {
             byte[] seperate = new byte[4];
@@ -15,18 +20,25 @@ namespace Apollo_IL
                 // Get each byte
                 seperate[i] = ram.memory[startingIndex + i];
             }
-            bool[] byte1, byte2, byte3, byte4 = new bool[8];
-            byte1 = BitOps.GetBinaryValue(seperate[0]);
-            byte2 = BitOps.GetBinaryValue(seperate[1]);
-            byte3 = BitOps.GetBinaryValue(seperate[2]);
-            byte4 = BitOps.GetBinaryValue(seperate[3]);
-            byte1 = Conversions.BooleanArray.JoinBooleans(byte1, byte2);
-            byte1 = Conversions.BooleanArray.JoinBooleans(byte1, byte3);
-            byte1 = Conversions.BooleanArray.JoinBooleans(byte1, byte4);
-            return BitOps.GetIntegerValue(byte1);
+            bool[] b1 = new bool[8];
+            bool[] b2 = new bool[8];
+            bool[] b3 = new bool[8];
+            bool[] b4 = new bool[8];
+            b1 = BitOps.GetBinaryValue(seperate[0]);
+            b2 = BitOps.GetBinaryValue(seperate[1]);
+            b3 = BitOps.GetBinaryValue(seperate[2]);
+            b4 = BitOps.GetBinaryValue(seperate[3]);
+            b1 = Conversions.BooleanArray.JoinBooleans(b1, b2);
+            b1 = Conversions.BooleanArray.JoinBooleans(b1, b3);
+            b1 = Conversions.BooleanArray.JoinBooleans(b1, b4);
+            return BitOps.GetIntegerValue(b1);
         }
 
-
+        /// <summary>
+        /// Parses a byte as an instruction
+        /// </summary>
+        /// <param name="opcode"></param>
+        /// <returns></returns>
         private byte ParseOpcode(byte opcode)
         {
             #region [COMPLETE] MOV (Move, 0x01)
@@ -57,7 +69,7 @@ namespace Apollo_IL
                 else
                 {
                     // Parameter 2: WRONG ADDRESSING MODE
-                    throw new Exception("[CRITICAL ERROR] The adressing mode at "+IP+" ("+ AdMode +") is invalid for the MOV (0x01) instruction.");
+                    throw new Exception("[CRITICAL ERROR] The adressing mode at " + IP + " (" + AdMode + ") is invalid for the MOV (0x01) instruction.");
                 }
 
                 PC += 5;
@@ -90,7 +102,7 @@ namespace Apollo_IL
                     // Parameter 1: Destination - Register, put the value in the register into the memory
                     parameters[1] = ram.memory[IP + 1];
                     SetRegister((byte)parameters[1], ram.memory[parameters[2]]);
-                    
+
                 }
                 else
                 {
@@ -136,10 +148,9 @@ namespace Apollo_IL
                 // Jump to the location
                 parameters[1] = ram.memory[(IP + 1)];
                 PC = (byte)parameters[1];
-                
-                #if DEBUG
+#if DEBUG
                 Globals.console.WriteLine("CLL " + parameters[1].ToString());
-                #endif
+#endif
             }
             #endregion
             #region [COMPLETE] RET (Return, 0x12)
@@ -147,10 +158,9 @@ namespace Apollo_IL
             {
                 // Get the last location from the call stack and jump to it
                 PC = (byte)CallStack.Return();
-                
-                #if DEBUG
+#if DEBUG
                 Globals.console.WriteLine("RET " + PC.ToString());
-                #endif
+#endif
             }
             #endregion
 
@@ -165,74 +175,91 @@ namespace Apollo_IL
             #endregion
             else
             {
-                throw new Exception("[ERROR] The instruction at " + IP + " (" + opcode + ") is not supported by this COSIL VM");
+                throw new Exception("[ERROR] The instruction at " + IP + " (" + opcode + ") is not supported by the Apollo IL Runtime");
             }
-            return NewIP = 0;
+            NewIP = 0;
+            return NewIP;
         }
+
         /// <summary>
         /// Places content into a register, splitting if necessary
         /// </summary>
-        /// <param name="register"></param>
-        /// <param name="content"></param>
-        private void SetRegister(byte register, int content)
+        /// <param name="Register"></param>
+        /// <param name="Content"></param>
+        private void SetRegister(byte Register, int Content)
         {
-            if (register == (byte)0xF0)
-                PC = (byte)content;
-            else if (register == (byte)0xF1)
-                IP = (byte)content;
-            //ignore 0xF2 as it is SP and SP is read only
-            else if (register == (byte)0xF3)
-            {
-                SS = (byte)content;
-            }
-            else if (register == (byte)0xF4)
-            {                
-                SetSplit('A', content);
-            }
-            else if (register == (byte)0xF5)
-            {
-                AL = (byte)content;
-            }
-            else if (register == (byte)0xF6)
-            {                
-                AH = (byte)content;
-            }
-            else if (register == (byte)0xF7)
-            {
-                SetSplit('B', content);
-            }
-            else if (register == (byte)0xF8)
-            {   
-                BL = (byte)content;
-            }
-            else if (register == (byte)0xF9)
-            {                
-                BH = (byte)content;
-            }
-            else if (register == (byte)0xFA)
-            {
-                SetSplit('C', content);
-            }
-            else if (register == (byte)0xFB)
-            {
-                CL = (byte)content;
-            }
-            else if (register == (byte)0xFC)
-            {   
-                CH = (byte)content;
-            }
-            else if (register == (byte)0xFD)
-            {
-                X = content;
-            }
-            else if (register == (byte)0xFE)
-            {
-                Y = content;
-            }
+            if (Register == (byte)0xF0)
+                PC = (byte)Content;
+            else if (Register == (byte)0xF1)
+                IP = (byte)Content;
+            //0xF2 (Stack Pointer) is read only
+            else if (Register == (byte)0xF3)
+                SS = (byte)Content;
+            else if (Register == (byte)0xF4)
+                SetSplit('A', Content);
+            else if (Register == (byte)0xF5)
+                AL = (byte)Content;
+            else if (Register == (byte)0xF6)
+                AH = (byte)Content;
+            else if (Register == (byte)0xF7)
+                SetSplit('B', Content);
+            else if (Register == (byte)0xF8)
+                BL = (byte)Content;
+            else if (Register == (byte)0xF9)
+                BH = (byte)Content;
+            else if (Register == (byte)0xFA)
+                SetSplit('C', Content);
+            else if (Register == (byte)0xFB)
+                CL = (byte)Content;
+            else if (Register == (byte)0xFC)
+                CH = (byte)Content;
+            else if (Register == (byte)0xFD)
+                X = Content;
+            else if (Register == (byte)0xFE)
+                Y = Content;
             else
-            {
-                throw new Exception("ERROR: The register " + register + " is not a register.");
-            }
+                throw new Exception("ERROR: The register " + Register + " is not a register.");
+        }
+
+        /// <summary>
+        /// Returns an integer value stored in a register
+        /// </summary>
+        /// <param name="Reg"></param>
+        /// <returns></returns>
+        private int GetRegister(byte Register)
+        {
+            if (Register == (byte)0xF0)
+                return (int)PC;
+            else if (Register == (byte)0xF1)
+                return (int)IP;
+            else if (Register == (byte)0xF2)
+                return (int)SP;
+            else if (Register == (byte)0xF3)
+                return (int)SS;
+            else if (Register == (byte)0xF4)
+                return GetSplit('A');
+            else if (Register == (byte)0xF5)
+                return AL;
+            else if (Register == (byte)0xF6)
+                return AH;
+            else if (Register == (byte)0xF7)
+                return GetSplit('B');
+            else if (Register == (byte)0xF8)
+                return BL;
+            else if (Register == (byte)0xF9)
+                return BH;
+            else if (Register == (byte)0xFA)
+                return GetSplit('C');
+            else if (Register == (byte)0xFB)
+                return CH;
+            else if (Register == (byte)0xFC)
+                return CL;
+            else if (Register == (byte)0xFD)
+                return X;
+            else if (Register == (byte)0xFE)
+                return Y;
+            else
+                return 0;
         }
     }
 }

@@ -17,12 +17,12 @@ namespace Apollo_IL.Conversions
         /// <returns>A string made from the chars in each byte in the array</returns>
         public static string ToString(byte[] content)
         {
-            string string_from_byte = "";
-            for (int a = 0; a < content.Length; a++)
+            string ret = "";
+            for (int i = 0; i < content.Length; i++)
             {
-                string_from_byte += (char)content[a];
+                ret += (char)content[i];
             }
-            return string_from_byte;
+            return ret;
         }
         /// <summary>
         /// Adds two byte arrays (byte_1, byte_2) together and returns the new byte array
@@ -30,18 +30,18 @@ namespace Apollo_IL.Conversions
         /// <param name="byte_1"></param>
         /// <param name="byte_2"></param>
         /// <returns>Array two joined at the end of Array one</returns>
-        public static byte[] JoinBytes(byte[] byte_1, byte[] byte_2)
+        public static byte[] JoinOn(byte[] byte_1, byte[] bool_2)
         {
-            byte[] returned_byte = new byte[byte_1.Length + byte_2.Length];
-            for (int a = 0; a < byte_1.Length; a++)
+            byte[] ret = new byte[(byte_1.Length + bool_2.Length)];
+            for (int i = 0; i < byte_1.Length; i++)
             {
-                returned_byte[a] = byte_1[a];
+                ret[i] = byte_1[i];
             }
-            for (int b = 0; b < byte_2.Length; b++)
+            for (int i = 0; i < bool_2.Length; i++)
             {
-                returned_byte[(b + byte_1.Length)] = byte_2[b];
+                ret[(i + byte_1.Length)] = bool_2[i];
             }
-            return returned_byte;
+            return ret;
         }
     }
 }

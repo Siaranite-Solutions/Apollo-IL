@@ -10,32 +10,33 @@ namespace Apollo_IL.StandardLib
         public static VM ParentVM;
         public static void HandleInterrupt(int command)
         {
-            #region standard I/O commands
+            // stdio Commands
+            #region stdio
             if (command == 0x01)
             {
-                #if DEBUG
+#if DEBUG
                 Globals.console.Write("KEI 0x01");
-                #endif
+#endif
                 if (ParentVM.AL == 0x01)
                 {
                     Globals.console.Write((char)ParentVM.AH);
-                    #if DEBUG
+#if DEBUG
                     Globals.console.WriteLine(" 0x01");
-                    #endif
+#endif
                 }
                 else if (ParentVM.AL == 0x02)
                 {
-                    string ToPrint = "";
-                    byte[] forconversion = new byte[ParentVM.GetSplit('B')];
-                    forconversion = ParentVM.ram.GetSection(ParentVM.X, ParentVM.GetSplit('B'));
-                    for (int a = 0; a < forconversion.Length; a++)
+                    string toPrint = "";
+                    byte[] toConvert = new byte[ParentVM.GetSplit('B')];
+                    toConvert = ParentVM.ram.GetSection(ParentVM.X, ParentVM.GetSplit('B'));
+                    for (int i = 0; i < toConvert.Length; i++)
                     {
-                        ToPrint += (char)forconversion[a];
+                        toPrint += (char)toConvert[i];
                     }
-                    Globals.console.Write(ToPrint);
-                    #if DEBUG
+                    Globals.console.Write(toPrint);
+#if DEBUG
                     Globals.console.WriteLine(" 0x02");
-                    #endif
+#endif
                 }
                 else if (ParentVM.AL == 0x03)
                 {
@@ -43,14 +44,14 @@ namespace Apollo_IL.StandardLib
                 }
                 else if (ParentVM.AL == 0x04)
                 {
-                    string ForConversion = Globals.console.ReadLine();
-                    byte[] ToWrite = new byte[ForConversion.Length];
-                    for (int a = 0; a < ForConversion.Length; a++)
+                    string toConvert = Globals.console.ReadLine();
+                    byte[] toWrite = new byte[toConvert.Length];
+                    for (int i = 0; i < toWrite.Length; i++)
                     {
-                        ToWrite[a] = (byte)ForConversion[a];
+                        toWrite[i] = (byte)toConvert[i];
                     }
-                    ParentVM.SetSplit('B', ToWrite.Length);
-                    ParentVM.ram.SetSection(ParentVM.X, ToWrite);
+                    ParentVM.SetSplit('B', toWrite.Length);
+                    ParentVM.ram.SetSection(ParentVM.X, toWrite);
                 }
             }
             #endregion

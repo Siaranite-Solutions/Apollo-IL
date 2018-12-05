@@ -11,7 +11,7 @@ namespace Apollo_IL
     public static class CallStack
     {
         /// <summary>
-        /// 
+        /// Stack index
         /// </summary>
         private static int stc_index = 0;
         /// <summary>

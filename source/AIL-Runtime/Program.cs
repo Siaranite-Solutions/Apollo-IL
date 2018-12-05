@@ -56,7 +56,16 @@ namespace AIL_Runtime
             {
                 Console.Title = "Apollo-VM Runtime - Hello World!";
                 LoadedApplication = HelloWorld;
-                Apollo_IL.Executable.Run(LoadedApplication);
+                try
+                {
+                    Apollo_IL.Executable.Run(LoadedApplication);
+                }
+                catch (Exception ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(ex.Message + "\nPress any key to terminate...");
+                    Console.ReadKey(true);
+                }
             }
         }
     }

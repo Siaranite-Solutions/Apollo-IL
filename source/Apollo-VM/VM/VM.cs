@@ -20,11 +20,11 @@ namespace Apollo_IL
 		/// </summary>
 		private enum AddressMode
 		{
-			RegReg,
-			RegVal,
-			ValVal,
-			ValReg
-		}
+            RegReg,
+            ValReg,
+            RegVal,
+            ValVal
+        }
 
 		/// <summary>
 		/// Address mode for current operation
@@ -78,14 +78,14 @@ namespace Apollo_IL
 		/// Higher byte of the C register
 		/// </summary>
 		public byte CH;
-		/// <summary>
-		/// 32-bit general purpose register
-		/// </summary>
-		public Int32 Y;
-		/// <summary>
+        /// <summary>
 		/// 32-bit general purpose register
 		/// </summary>
 		public Int32 X;
+        /// <summary>
+        /// 32-bit general purpose register
+        /// </summary>
+        public Int32 Y;
 		#endregion
 	
 		/// <summary>
@@ -93,17 +93,17 @@ namespace Apollo_IL
 		/// </summary>
 		/// <param name="application"></param>
 		private void LoadApplication(byte[] application)
-		{
-			int i = 0;
-			while (i < application.Length)
-			{
-				ram.memory[i] = application[i];
-				i++;
-			}
-			//Sets the RAM limit, right above the end of the executable:
-			ram.RAMLimit = (i + 1);
+		{  
+            int i = 0;
+            while (i < application.Length)
+            {
+                ram.memory[i] = application[i];
+                i++;
+            }
+            //Sets the RAM limit, right above the end of the executable:
+            ram.RAMLimit = (i + 1);
 
-		}
+        }
 		/// <summary>
 		/// This virtual machine's RAM
 		/// </summary>
@@ -115,13 +115,13 @@ namespace Apollo_IL
 		/// <param name="ramsize">The size of virtual memory in bytes must be larger than the size of the executable binary</param>
 		public VM(byte[] executable, int ramsize)
 		{
-			ram = new RandomAccessMemory(ramsize);
-			// Declares the six-bit instruction to a new boolean array of length 9 
-			sixbits = new bool[9];
-			// Declares the two-bit parameter addressing mode to a new boolean array of length 2
-			twobits = new bool[2];
-			// Defines the parameters integer array as an array of length 5
-			parameters = new int[5];
+            ram = new RandomAccessMemory(ramsize);
+            // Declares the six-bit instruction to a new boolean array of length 9 
+            sixbits = new bool[9];
+            // Declares the two-bit parameter addressing mode to a new boolean array of length 2
+            twobits = new bool[2];
+            // Defines the parameters integer array as an array of length 5
+            parameters = new int[5];
 			// Sets the instruction pointer to 0
 			IP = 0;
 			// Sets the program counter to 1
@@ -135,78 +135,38 @@ namespace Apollo_IL
 		/// Address mode initially set to 0, for Register:Register
 		/// </summary>
 		private int AdMode = 0;
-		/// <summary>
-		/// Returns an integer value stored in a register
-		/// </summary>
-		/// <param name="Reg"></param>
-		/// <returns></returns>
-		private int GetRegister(byte Reg)
-		{
-			if (Reg == (byte)0xF0)
-				return (int)PC;
-			else if (Reg == (byte)0xF1)
-				return (int)IP;
-			else if (Reg == (byte)0xF2)
-				return (int)SP;
-			else if (Reg == (byte)0xF3)
-				return (int)SS;
-			else if (Reg == (byte)0xF4)
-				return GetSplit('A');
-			else if (Reg == (byte)0xF5)
-				return AL;
-			else if (Reg == (byte)0xF6)
-				return AH;
-			else if (Reg == (byte)0xF7)
-				return GetSplit('B');
-			else if (Reg == (byte)0xF8)
-				return BL;
-			else if (Reg == (byte)0xF9)
-				return BH;
-			else if (Reg == (byte)0xFA)
-				return GetSplit('C');
-			else if (Reg == (byte)0xFB)
-				return CL;
-			else if (Reg == (byte)0xFC)
-				return CH;
-			else if (Reg == (byte)0xFD)
-				return X;
-			else if (Reg == (byte)0xFE)
-				return Y;
-			else
-				return 0;
-		}
-		/// <summary>
-		/// Gets the current address mode from the specified byte
-		/// </summary>
-		/// <param name="b">Address mode byte</param>
-		private void GetAddressMode(byte b)
-		{
-			AdMode = GetLastTwo(b);
-			if (AdMode == 0)
-			{
-				opMode = AddressMode.RegReg;
-			}
-			else if (AdMode == 1)
-			{
-				opMode = AddressMode.RegVal;
-			}
-			else if (AdMode == 2)
-			{
-				opMode = AddressMode.ValVal;
-			}
-			else if (AdMode == 3)
-			{
-				opMode = AddressMode.ValReg;
-			}
-			else
-			{
-				throw new Exception("<Critical Error!> Address mode at " + IP + " (" + AdMode + ") is invalid.");
-			}
-		}
-		/// <summary>
-		/// Executes the binary loaded into the Virtual Machine's memory
-		/// </summary>
-		public void Execute()
+        /// <summary>
+        /// Gets the current address mode from the specified byte
+        /// </summary>
+        /// <param name="b">Address mode byte</param>
+        private void GetAddressMode(byte b)
+        {
+            AdMode = GetLastTwo(b);
+            if (AdMode == 0)
+            {
+                opMode = AddressMode.RegReg;
+            }
+            else if (AdMode == 1)
+            {
+                opMode = AddressMode.ValReg;
+            }
+            else if (AdMode == 2)
+            {
+                opMode = AddressMode.RegVal;
+            }
+            else if (AdMode == 3)
+            {
+                opMode = AddressMode.ValVal;
+            }
+            else
+            {
+                throw new Exception("[CRITICAL ERROR] Invalid address mode at " + IP + " (" + AdMode + ").");
+            }
+        }
+        /// <summary>
+        /// Executes the binary loaded into the Virtual Machine's memory
+        /// </summary>
+        public void Execute()
 		{
 			while (ram.memory[IP] != 0x00)
 			{
@@ -221,7 +181,8 @@ namespace Apollo_IL
 				PC++;
 			}
 		}
-		/// <summary>
+
+        /// <summary>
         /// Retrieves the last two bits from a single byte (8 bits)
         /// </summary>
         /// <param name="b"></param>
@@ -231,14 +192,21 @@ namespace Apollo_IL
             byte c = 0;
             for (int i = 7; i > 5; i--)
             {
-                sixbits[i] = BitOps.GetBit(b, i);
+                twobits[c] = BitOps.GetBit(b, i);
+                c++;
             }
-            return BitOps.GetIntegerValue(sixbits);
+            return BitOps.GetIntegerValue(twobits);
         }
-		/// <summary>
-		/// Stores the first six bits in a byte
-		/// </summary>
-		private bool[] sixbits;
+        /// <summary>
+        /// Stores the first six bits in a byte
+        /// </summary>
+        private bool[] sixbits;
+
+        /// <summary>
+        /// Retrieves the integer value of first six bits in a byte
+        /// </summary>
+        /// <param name="b"></param>
+        /// <returns></returns>
         private int GetFirstSix(byte b)
         {
             for (int i = 0; i < 6; i++)
@@ -247,37 +215,38 @@ namespace Apollo_IL
             }
             return BitOps.GetIntegerValue(sixbits);
         }
-		/// <summary>
-		/// Stores the last two bits in a byte (byte - sixbits)
-		/// </summary>
+
+        /// <summary>
+        /// Stores the last two bits in a byte (byte - sixbits)
+        /// </summary>
         private bool[] twobits;
 
-		/// <summary>
+        /// <summary>
         /// Stores content into registers, splitting the content into the two register halves if needed
         /// </summary>
-        /// <param name="register"></param>
-        /// <param name="content"></param>
-        public void SetSplit(char register, int content)
+        /// <param name="Register"></param>
+        /// <param name="Content"></param>
+        public void SetSplit(char Register, int Content)
         {
             byte lower;
             byte higher;
-            if (content > 255)
+            if (Content > 255)
             {
-                lower = (byte) 255;
-                higher = (byte) (content - 255);
+                lower = (byte)255;
+                higher = (byte)(Content - 255);
             }
             else
             {
-                lower= (byte) content;
-                if (register == 'A')
+                lower = (byte)Content;
+                if (Register == 'A')
                 {
                     AL = lower;
                 }
-                else if (register == 'B')
+                else if (Register == 'B')
                 {
                     BL = lower;
                 }
-                else if (register == 'C')
+                else if (Register == 'C')
                 {
                     CL = lower;
                 }
@@ -288,23 +257,23 @@ namespace Apollo_IL
         /// Retrieves the data stored in each register half (AL/AH, BL/BH, CL/CH), returning the integer value
         /// If the specified register isn't A/B/C, throw a new exception.
         /// </summary>
-        /// <param name="register"></param>
+        /// <param name="Register"></param>
         /// <returns>Two halves of the specified register combined into one integer</returns>
-        public int GetSplit(char register)
+        public int GetSplit(char Register)
         {
-            if (register == 'A')
+            if (Register == 'A')
             {
                 return BitOps.CombineBytes(AL, AH);
             }
-            else if (register == 'B')
+            else if (Register == 'B')
             {
                 return BitOps.CombineBytes(BL, BH);
             }
-            else if (register == 'C')
+            else if (Register == 'C')
             {
                 return BitOps.CombineBytes(CL, CH);
             }
-            throw new Exception("There was an internal error and the VM has closed to protect your data. Please report this to the application developer");
+            throw new Exception("There was an internal error and the VM has had to close.");
         }
     }
 }
