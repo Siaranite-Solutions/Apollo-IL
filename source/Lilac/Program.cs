@@ -25,7 +25,7 @@ namespace Lilac.Compiler
             {
                 if (args.Length == 1)
                 {
-                    if (args[0].Length <= 5 && args[0].EndsWith(".ila"))
+                    if (args[0].Length <= 6 && args[0].EndsWith(".lsf"))
                     {
                         FilePath = args[0];
                         FI = null;
@@ -50,8 +50,15 @@ namespace Lilac.Compiler
                     FileInfo FI = null;
                     try
                     {
-                        FI = new FileInfo(FilePath);
-                        ValidFilename = true;
+                        if (FilePath != "" && (FilePath.Length <= 6 && FilePath.EndsWith(".lsf")))
+                        {
+                            FI = new FileInfo(FilePath);
+                            ValidFilename = true;
+                        }
+                        else
+                        {
+                            throw new Exception();
+                        }
                     }
                     catch (Exception)
                     {
@@ -71,8 +78,13 @@ namespace Lilac.Compiler
             {
                 Console.WriteLine("Compiling...");
                 VMExecutable = CompiledSource.Compile();
-                Console.WriteLine("Please enter where you'd like to save the compiled executable:");
+                Console.WriteLine("Please enter where you'd like to save the compiled executable: (Must end in .ila - will add automatically if not added)");
                 string path = Console.ReadLine();
+                // If the path doesn't end in a .ila extension, add it
+                if (!path.EndsWith(".ila"))
+                {
+                    path += ".ila";
+                }
                 File.WriteAllBytes(path, VMExecutable);
             }
             catch (BuildException ex)
