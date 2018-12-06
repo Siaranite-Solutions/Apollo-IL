@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Apollo_IL", "source\Apollo-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AIL-Runtime", "source\AIL-Runtime\AIL-Runtime.csproj", "{381E5440-C1CF-410C-B802-514C7CFFD3FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lilac.Compiler", "source\Lilac\Lilac.Compiler.csproj", "{CA4774FB-B0DE-4228-A72B-2EB8A58694F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lilac.Compiler", "source\Lilac\Lilac.Compiler.csproj", "{CA4774FB-B0DE-4228-A72B-2EB8A58694F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lilac.IDE", "source\Lilac.IDE\Lilac.IDE.csproj", "{7CF0DFB9-9D19-4B8F-A664-00A3255A615D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{CA4774FB-B0DE-4228-A72B-2EB8A58694F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA4774FB-B0DE-4228-A72B-2EB8A58694F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA4774FB-B0DE-4228-A72B-2EB8A58694F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CF0DFB9-9D19-4B8F-A664-00A3255A615D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CF0DFB9-9D19-4B8F-A664-00A3255A615D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CF0DFB9-9D19-4B8F-A664-00A3255A615D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CF0DFB9-9D19-4B8F-A664-00A3255A615D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
