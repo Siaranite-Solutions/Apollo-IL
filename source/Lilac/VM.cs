@@ -76,7 +76,7 @@ namespace Lilac.Compiler
         /// </summary>
         /// <param name="Register"></param>
         /// <returns>Register bytecode</returns>
-        public static byte RetrieveRegisterister(string Register)
+        public static byte RetrieveRegister(string Register)
         {
             // go through each Registerister to see if the provided string is equal to that,
             //  return the correct value if equal. Return 0 if not.

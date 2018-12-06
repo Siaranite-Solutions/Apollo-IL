@@ -48,24 +48,30 @@ namespace AIL_Runtime
 235, 1, 0, 0, 0, 0, 
 208, 0, 0, 0, 0, 0, 
         };
+
         static void Main(string[] args)
         {
-            byte[] LoadedApplication;
+            byte[] LoadedApplication = null;
             Apollo_IL.Globals.console = new AIL_Runtime.AR_Console();
             if (args.Length == 0)
             {
                 Console.Title = "Apollo-VM Runtime - Hello World!";
                 LoadedApplication = HelloWorld;
-                try
-                {
-                    Apollo_IL.Executable.Run(LoadedApplication);
-                }
-                catch (Exception ex)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(ex.Message + "\nPress any key to terminate...");
-                    Console.ReadKey(true);
-                }
+                
+            }
+            else
+            {
+                LoadedApplication = File.ReadAllBytes(args[0]);
+            }
+            try
+            {
+                Apollo_IL.Executable.Run(LoadedApplication);
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.Message + "\nPress any key to terminate...");
+                Console.ReadKey(true);
             }
         }
     }
