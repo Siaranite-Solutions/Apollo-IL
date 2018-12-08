@@ -4,12 +4,7 @@ using System.Text;
 
 namespace Lilac.Compiler
 {
-    class Builder
-    {
-
-    }
-
-    class BuildException : Exception
+    public class BuildException : Exception
     {
         public int SrcLineNumber = 0;
         public BuildException() : base()

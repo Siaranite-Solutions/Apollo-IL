@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
+using AILCompiler = Lilac.Compiler.Compiler;
 
-namespace Lilac.Compiler
+namespace Lilac.CLI
 {
     class Program
     {
@@ -73,7 +74,7 @@ namespace Lilac.Compiler
 
             byte[] VMExecutable = null;
             string SourceCode = File.ReadAllText(FilePath);
-            Compiler CompiledSource = new Compiler(SourceCode);
+            AILCompiler CompiledSource = new AILCompiler(SourceCode);
             try
             {
                 Console.WriteLine("Compiling...");
@@ -87,7 +88,7 @@ namespace Lilac.Compiler
                 }
                 File.WriteAllBytes(path, VMExecutable);
             }
-            catch (BuildException ex)
+            catch (Compiler.BuildException ex)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("[ERROR]" + ex.Message);
