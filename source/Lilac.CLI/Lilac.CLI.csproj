@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ClassLibrary1\Lilac.Compiler.csproj" />
+    <ProjectReference Include="..\Lilac.Compiler\Lilac.Compiler.csproj" />
   </ItemGroup>
 
 </Project>

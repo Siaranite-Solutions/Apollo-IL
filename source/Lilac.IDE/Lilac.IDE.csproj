@@ -36,7 +36,8 @@
     <StartupObject>Lilac.IDE.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Terminal.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FastColoredTextBox, Version=2.16.24.0, Culture=neutral, PublicKeyToken=fb8aa12b994ef61b, processorArchitecture=MSIL">
@@ -101,7 +102,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ClassLibrary1\Lilac.Compiler.csproj">
+    <ProjectReference Include="..\Lilac.Compiler\Lilac.Compiler.csproj">
       <Project>{ad4fc4a9-f4b6-49d3-91da-ebe542c0eed6}</Project>
       <Name>Lilac.Compiler</Name>
     </ProjectReference>
@@ -111,8 +112,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Console.ico" />
-    <Content Include="Terminal.ico" />
+    <None Include="Resources\Terminal.ico" />
+    <None Include="Resources\Save.ico" />
+    <None Include="Resources\New document.ico" />
+    <None Include="Resources\Folder.ico" />
+    <None Include="Resources\Image1.bmp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\connex.png" />

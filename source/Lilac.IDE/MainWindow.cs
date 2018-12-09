@@ -28,19 +28,13 @@ namespace Lilac.IDE
 
         private void fastColoredTextBox1_Changed(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
         {
-            if (SourceInput.BackColor == Color.Red)
-                SourceInput.BackColor = Color.White;
+            SourceInput.BackColor = Color.White;
+            SourceInput.ForeColor = Color.Black;
             e.ChangedRange.ClearStyle(Register, Char);
             
             e.ChangedRange.SetStyle(Char, "\'\\\\?[A-Za-z0-9]\'");
             e.ChangedRange.SetStyle(Register, @" \b(PC|IP|SP|SS|AL|AH|BL|BH|CL|CH|A|B|C|X|Y)");
-        }
-
-        private void newToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            SourceInput.Text = "";
             Errors.Clear();
-            this.Text = "Lilac IDE - Untitled";
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -89,6 +83,7 @@ namespace Lilac.IDE
 
         private void buildToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            Errors.Rows.Clear();
             try
             {
                 AILCompiler.Compiler SourceCompiler = new AILCompiler.Compiler(SourceInput.Text);
@@ -145,7 +140,54 @@ namespace Lilac.IDE
 
         }
 
-        private void openToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void debugToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Console.Clear();
+            Console.WriteLine("Starting...");
+            Errors.Rows.Clear();
+            try
+            {
+                AILCompiler.Compiler SourceOutput = new AILCompiler.Compiler(SourceInput.Text);
+
+                Debugger Program = new Debugger(SourceOutput.Compile());
+                Program.Run();
+            }
+            catch (ArgumentException ex)
+            {
+                SourceInput.BackColor = Color.Red;
+                SourceInput.ForeColor = Color.White;
+                DataRow row = Errors.NewRow();
+                row["Message"] = ex.Message;
+                Errors.Rows.Add(row);
+            }
+            catch (AILCompiler.BuildException ex)
+            {
+                SourceInput.BackColor = Color.Red;
+                SourceInput.ForeColor = Color.White;
+                DataRow row = Errors.NewRow();
+                row["Message"] = ex.Message;
+                row["Line Number"] = ex.SrcLineNumber.ToString();
+                Errors.Rows.Add(row);
+            }
+            catch (Exception ex)
+            {
+                SourceInput.BackColor = Color.Red;
+                SourceInput.ForeColor = Color.White;
+                DataRow row = Errors.NewRow();
+                row["Message"] = ex.Message;
+                Errors.Rows.Add(row);
+            }
+            
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SourceInput.Text = "";
+            Errors.Clear();
+            this.Text = "Lilac IDE - Untitled";
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -154,15 +196,6 @@ namespace Lilac.IDE
                 sr.Close();
                 this.Text = "Lilac IDE - " + openFileDialog1.FileName;
             }
-        }
-
-        private void debugToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine("Starting...");
-            AILCompiler.Compiler SourceOutput = new AILCompiler.Compiler(SourceInput.Text);
-            Debugger Program = new Debugger(SourceOutput.Compile());
-            Program.Run();
-            
         }
     }
 }

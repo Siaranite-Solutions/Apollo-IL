@@ -47,7 +47,8 @@ namespace Lilac.IDE
         public void Run()
         {
             byte[] LoadedApplication = Program;
-            Apollo_IL.Globals.console = new RuntimeIO();
+            Globals.console = new RuntimeIO();
+            Globals.DebugMode = false;
             Console.Title = "Apollo-VM Runtime - Hello World!";
             try
             {

@@ -13,5 +13,6 @@ namespace Apollo_IL
         /// </summary>
         /// <returns>An empty console that provides no I/O</returns>
         public static VConsole console = new NullConsole();
+        public static bool DebugMode = true;
     }
 }
