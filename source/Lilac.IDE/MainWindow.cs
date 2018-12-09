@@ -10,14 +10,24 @@ using System.Windows.Forms;
 using FastColoredTextBoxNS;
 using AILCompiler = Lilac.Compiler;
 using System.IO;
+using ScintillaNET;
 
 namespace Lilac.IDE
 {
     public partial class MainWindow : Form
     {
         private DataTable Errors = new DataTable();
+        private bool ErrorOccured = false;
         TextStyle Register = new TextStyle(Brushes.Green, null, FontStyle.Bold);
         TextStyle Char = new TextStyle(Brushes.Blue, null, FontStyle.Italic);
+
+        private void ErrorColours()
+        {
+            scintilla1.Styles[ScintillaNET.Style.Default].BackColor = Color.Red;
+            scintilla1.Styles[ScintillaNET.Style.Default].ForeColor = Color.White;
+            scintilla1.StyleClearAll();
+            ErrorOccured = true;
+        }
 
         public MainWindow()
         {
@@ -26,15 +36,22 @@ namespace Lilac.IDE
             InitializeComponent();
         }
 
-        private void fastColoredTextBox1_Changed(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
+        private void fastColoredTextBox1_Changed(object sender, EventArgs e)
         {
-            SourceInput.BackColor = Color.White;
-            SourceInput.ForeColor = Color.Black;
-            e.ChangedRange.ClearStyle(Register, Char);
+            if (ErrorOccured == true)
+            {
+                scintilla1.Styles[ScintillaNET.Style.Default].BackColor = Color.White;
+                scintilla1.Styles[ScintillaNET.Style.Default].ForeColor = Color.Black;
+                scintilla1.StyleClearAll();
+            }
             
-            e.ChangedRange.SetStyle(Char, "\'\\\\?[A-Za-z0-9]\'");
-            e.ChangedRange.SetStyle(Register, @" \b(PC|IP|SP|SS|AL|AH|BL|BH|CL|CH|A|B|C|X|Y)");
+            //e.ChangedRange.ClearStyle(Register, Char);
+            
+            //e.ChangedRange.SetStyle(Char, "\'\\\\?[A-Za-z0-9]\'");
+            //e.ChangedRange.SetStyle(Register, @" \b(PC|IP|SP|SS|AL|AH|BL|BH|CL|CH|A|B|C|X|Y)");
             Errors.Clear();
+            ErrorOccured = false;
+            PositionLbl.Text = "" + scintilla1.CurrentPosition;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -44,36 +61,39 @@ namespace Lilac.IDE
             Errors.Columns.Add("Line Number");
             dataGridView1.DataSource = Errors;
             Console.WriteLine("Loaded successfully!");
+            CurrentFileLbl.Text = "Untitled";
+            scintilla1.Margins[0].Width = 16;
+            scintilla1.TextChanged += this.fastColoredTextBox1_Changed;
         }
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SourceInput.Cut();
+            scintilla1.Cut();
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SourceInput.Copy();
+            scintilla1.Copy();
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SourceInput.Paste();
+            scintilla1.Paste();
         }
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SourceInput.Undo();
+            scintilla1.Undo();
         }
 
         private void redoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SourceInput.Redo();
+            scintilla1.Redo();
         }
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SourceInput.SelectAll();
+            scintilla1.SelectAll();
         }
 
         private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -86,7 +106,7 @@ namespace Lilac.IDE
             Errors.Rows.Clear();
             try
             {
-                AILCompiler.Compiler SourceCompiler = new AILCompiler.Compiler(SourceInput.Text);
+                AILCompiler.Compiler SourceCompiler = new AILCompiler.Compiler(scintilla1.Text);
                 SourceCompiler.Compile();
                 if (saveBinaryDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -107,7 +127,9 @@ namespace Lilac.IDE
             }
             catch (AILCompiler.BuildException ex)
             {
-                SourceInput.BackColor = Color.Red;
+                scintilla1.Styles[ScintillaNET.Style.Default].BackColor = Color.Red;
+                scintilla1.Styles[ScintillaNET.Style.Default].ForeColor = Color.White;
+                scintilla1.StyleClearAll();
                 DataRow row = Errors.NewRow();
                 row["Message"] = ex.Message;
                 row["Line Number"] = ex.SrcLineNumber.ToString();
@@ -147,23 +169,20 @@ namespace Lilac.IDE
             Errors.Rows.Clear();
             try
             {
-                AILCompiler.Compiler SourceOutput = new AILCompiler.Compiler(SourceInput.Text);
-
+                AILCompiler.Compiler SourceOutput = new AILCompiler.Compiler(scintilla1.Text);
                 Debugger Program = new Debugger(SourceOutput.Compile());
                 Program.Run();
             }
             catch (ArgumentException ex)
             {
-                SourceInput.BackColor = Color.Red;
-                SourceInput.ForeColor = Color.White;
+                ErrorColours();
                 DataRow row = Errors.NewRow();
                 row["Message"] = ex.Message;
                 Errors.Rows.Add(row);
             }
             catch (AILCompiler.BuildException ex)
             {
-                SourceInput.BackColor = Color.Red;
-                SourceInput.ForeColor = Color.White;
+                ErrorColours();
                 DataRow row = Errors.NewRow();
                 row["Message"] = ex.Message;
                 row["Line Number"] = ex.SrcLineNumber.ToString();
@@ -171,8 +190,7 @@ namespace Lilac.IDE
             }
             catch (Exception ex)
             {
-                SourceInput.BackColor = Color.Red;
-                SourceInput.ForeColor = Color.White;
+                ErrorColours();
                 DataRow row = Errors.NewRow();
                 row["Message"] = ex.Message;
                 Errors.Rows.Add(row);
@@ -182,9 +200,10 @@ namespace Lilac.IDE
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SourceInput.Text = "";
+            scintilla1.Text = "";
             Errors.Clear();
             this.Text = "Lilac IDE - Untitled";
+            CurrentFileLbl.Text = "";
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -192,9 +211,10 @@ namespace Lilac.IDE
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 StreamReader sr = new StreamReader(File.OpenRead(openFileDialog1.FileName));
-                SourceInput.Text = sr.ReadToEnd();
+                scintilla1.Text = sr.ReadToEnd();
                 sr.Close();
                 this.Text = "Lilac IDE - " + openFileDialog1.FileName;
+                CurrentFileLbl.Text = openFileDialog1.FileName;
             }
         }
     }

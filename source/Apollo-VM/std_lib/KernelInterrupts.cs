@@ -14,15 +14,15 @@ namespace Apollo_IL.StandardLib
             #region stdio
             if (command == 0x01)
             {
-#if DEBUG
-                Globals.console.Write("KEI 0x01");
-#endif
+                if (Globals.DebugMode == true)
+                {
+                    Globals.console.Write("KEI 0x01");
+                }
                 if (ParentVM.AL == 0x01)
                 {
                     Globals.console.Write((char)ParentVM.AH);
-#if DEBUG
-                    Globals.console.WriteLine(" 0x01");
-#endif
+                    if (Globals.DebugMode == true)
+                        Globals.console.WriteLine(" 0x01");
                 }
                 else if (ParentVM.AL == 0x02)
                 {
@@ -34,9 +34,8 @@ namespace Apollo_IL.StandardLib
                         toPrint += (char)toConvert[i];
                     }
                     Globals.console.Write(toPrint);
-#if DEBUG
-                    Globals.console.WriteLine(" 0x02");
-#endif
+                    if (Globals.DebugMode == true)
+                        Globals.console.WriteLine(" 0x02");
                 }
                 else if (ParentVM.AL == 0x03)
                 {
@@ -53,6 +52,15 @@ namespace Apollo_IL.StandardLib
                     ParentVM.SetSplit('B', toWrite.Length);
                     ParentVM.ram.SetSection(ParentVM.X, toWrite);
                 }
+            }
+            else if (command == 0x02)
+            {
+                ParentVM.Halt();
+            }
+            else
+            {
+                Globals.console.WriteLine("Undocumented function" + command + "\nHalting for protection of data");
+                ParentVM.Halt();
             }
             #endregion
         }

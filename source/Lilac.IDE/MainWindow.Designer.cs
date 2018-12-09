@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,16 +66,21 @@
             this.saveBinaryDialog = new System.Windows.Forms.SaveFileDialog();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.SourceInput = new FastColoredTextBoxNS.FastColoredTextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.scintilla1 = new ScintillaNET.Scintilla();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.PosLbl = new System.Windows.Forms.ToolStripStatusLabel();
+            this.PositionLbl = new System.Windows.Forms.ToolStripStatusLabel();
+            this.FileLbl = new System.Windows.Forms.ToolStripStatusLabel();
+            this.CurrentFileLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.SourceInput)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -279,14 +283,14 @@
             // buildToolStripMenuItem1
             // 
             this.buildToolStripMenuItem1.Name = "buildToolStripMenuItem1";
-            this.buildToolStripMenuItem1.Size = new System.Drawing.Size(105, 22);
+            this.buildToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.buildToolStripMenuItem1.Text = "Build";
             this.buildToolStripMenuItem1.Click += new System.EventHandler(this.buildToolStripMenuItem1_Click);
             // 
             // debugToolStripMenuItem
             // 
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
-            this.debugToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.debugToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.debugToolStripMenuItem.Text = "Debug";
             this.debugToolStripMenuItem.Click += new System.EventHandler(this.debugToolStripMenuItem_Click);
             // 
@@ -362,7 +366,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.SourceInput);
+            this.groupBox1.Controls.Add(this.scintilla1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
@@ -370,37 +374,6 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Source View";
-            // 
-            // SourceInput
-            // 
-            this.SourceInput.AutoCompleteBracketsList = new char[] {
-        '(',
-        ')',
-        '{',
-        '}',
-        '[',
-        ']',
-        '\"',
-        '\"',
-        '\'',
-        '\''};
-            this.SourceInput.AutoScrollMinSize = new System.Drawing.Size(27, 14);
-            this.SourceInput.BackBrush = null;
-            this.SourceInput.CharHeight = 14;
-            this.SourceInput.CharWidth = 8;
-            this.SourceInput.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.SourceInput.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.SourceInput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SourceInput.IsReplaceMode = false;
-            this.SourceInput.Location = new System.Drawing.Point(3, 16);
-            this.SourceInput.Name = "SourceInput";
-            this.SourceInput.Paddings = new System.Windows.Forms.Padding(0);
-            this.SourceInput.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.SourceInput.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("SourceInput.ServiceColors")));
-            this.SourceInput.Size = new System.Drawing.Size(788, 319);
-            this.SourceInput.TabIndex = 0;
-            this.SourceInput.Zoom = 100;
-            this.SourceInput.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fastColoredTextBox1_Changed);
             // 
             // groupBox2
             // 
@@ -430,11 +403,56 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // scintilla1
+            // 
+            this.scintilla1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scintilla1.Location = new System.Drawing.Point(3, 16);
+            this.scintilla1.Margins.Left = 16;
+            this.scintilla1.Name = "scintilla1";
+            this.scintilla1.Size = new System.Drawing.Size(788, 319);
+            this.scintilla1.TabIndex = 0;
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FileLbl,
+            this.CurrentFileLbl,
+            this.PosLbl,
+            this.PositionLbl});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 454);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(800, 22);
+            this.statusStrip1.TabIndex = 2;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // PosLbl
+            // 
+            this.PosLbl.Name = "PosLbl";
+            this.PosLbl.Size = new System.Drawing.Size(48, 17);
+            this.PosLbl.Text = "Position:";
+            // 
+            // PositionLbl
+            // 
+            this.PositionLbl.Name = "PositionLbl";
+            this.PositionLbl.Size = new System.Drawing.Size(0, 17);
+            // 
+            // FileLbl
+            // 
+            this.FileLbl.Name = "FileLbl";
+            this.FileLbl.Size = new System.Drawing.Size(65, 17);
+            this.FileLbl.Text = "Current file:";
+            // 
+            // CurrentFileLbl
+            // 
+            this.CurrentFileLbl.Name = "CurrentFileLbl";
+            this.CurrentFileLbl.Size = new System.Drawing.Size(0, 17);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 476);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -446,9 +464,10 @@
             this.menuStrip1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.SourceInput)).EndInit();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -471,7 +490,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private FastColoredTextBoxNS.FastColoredTextBox SourceInput;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -497,6 +515,12 @@
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem customizeToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem1;
+        private ScintillaNET.Scintilla scintilla1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel FileLbl;
+        private System.Windows.Forms.ToolStripStatusLabel CurrentFileLbl;
+        private System.Windows.Forms.ToolStripStatusLabel PosLbl;
+        private System.Windows.Forms.ToolStripStatusLabel PositionLbl;
     }
 }
 

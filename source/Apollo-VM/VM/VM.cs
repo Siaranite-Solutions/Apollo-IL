@@ -86,7 +86,9 @@ namespace Apollo_IL
         /// 32-bit general purpose register
         /// </summary>
         public Int32 Y;
-		#endregion
+        #endregion
+
+        private bool Running = false;
 	
 		/// <summary>
 		/// Loads the application as a byte array into the virtual machine's memory
@@ -168,19 +170,30 @@ namespace Apollo_IL
         /// </summary>
         public void Execute()
 		{
-			while (ram.memory[IP] != 0x00)
-			{
-				/// <summary>
-				/// Gets the operation from the first six bytes of the instruction pointer
-				/// </summary>
-				/// <returns>operation from instruction pointer</returns>
-				byte opcode = (byte)GetFirstSix(ram.memory[IP]);
-				GetAddressMode(ram.memory[IP]);
-				ParseOpcode(opcode);
-				IP = PC;
-				PC++;
-			}
+            Running = true;
+            while (Running == true)
+            {
+                while (ram.memory[IP] != 0x00)
+                {
+                    /// <summary>
+                    /// Gets the operation from the first six bytes of the instruction pointer
+                    /// </summary>
+                    /// <returns>operation from instruction pointer</returns>
+                    byte opcode = (byte)GetFirstSix(ram.memory[IP]);
+                    GetAddressMode(ram.memory[IP]);
+                    ParseOpcode(opcode);
+                    IP = PC;
+                    PC++;
+                }
+            }
+            Running = false;
 		}
+
+        public void Halt()
+        {
+            ram.memory[IP] = 0x00;
+            Running = false;
+        }
 
         /// <summary>
         /// Retrieves the last two bits from a single byte (8 bits)
