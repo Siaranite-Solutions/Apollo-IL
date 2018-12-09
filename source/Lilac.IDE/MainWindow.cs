@@ -40,6 +40,7 @@ namespace Lilac.IDE
         {
             SourceInput.Text = "";
             Errors.Clear();
+            this.Text = "Lilac IDE - Untitled";
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -150,6 +151,7 @@ namespace Lilac.IDE
                 StreamReader sr = new StreamReader(File.OpenRead(openFileDialog1.FileName));
                 SourceInput.Text = sr.ReadToEnd();
                 sr.Close();
+                this.Text = "Lilac IDE - " + openFileDialog1.FileName;
             }
         }
     }
