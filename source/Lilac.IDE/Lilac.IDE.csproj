@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{948B8435-DB59-436E-AC8A-CACC2714C43A}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>Lilac.IDE</RootNamespace>
     <AssemblyName>Lilac.IDE</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -35,6 +35,9 @@
   <PropertyGroup>
     <StartupObject>Lilac.IDE.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Terminal.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="FastColoredTextBox, Version=2.16.24.0, Culture=neutral, PublicKeyToken=fb8aa12b994ef61b, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FCTB.2.16.24\lib\FastColoredTextBox.dll</HintPath>
@@ -60,6 +63,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RuntimeIO.cs" />
     <Compile Include="SplashScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,8 +105,15 @@
       <Project>{ad4fc4a9-f4b6-49d3-91da-ebe542c0eed6}</Project>
       <Name>Lilac.Compiler</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Apollo-VM\Apollo_IL.csproj">
+      <Project>{f2c5086a-4d10-4a00-82b9-173d7496249e}</Project>
+      <Name>Apollo_IL</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Console.ico" />
+    <Content Include="Terminal.ico" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Resources\connex.png" />
   </ItemGroup>

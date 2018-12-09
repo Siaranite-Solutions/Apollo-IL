@@ -49,6 +49,7 @@ namespace Lilac.IDE
             Errors.Columns.Add("Message");
             Errors.Columns.Add("Line Number");
             dataGridView1.DataSource = Errors;
+            Console.WriteLine("Loaded successfully!");
         }
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -153,6 +154,15 @@ namespace Lilac.IDE
                 sr.Close();
                 this.Text = "Lilac IDE - " + openFileDialog1.FileName;
             }
+        }
+
+        private void debugToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("Starting...");
+            AILCompiler.Compiler SourceOutput = new AILCompiler.Compiler(SourceInput.Text);
+            Debugger Program = new Debugger(SourceOutput.Compile());
+            Program.Run();
+            
         }
     }
 }
