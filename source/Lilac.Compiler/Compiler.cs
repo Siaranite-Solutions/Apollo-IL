@@ -55,6 +55,10 @@ namespace Lilac.Compiler
                 {
                     // Do nothing - the line is a source comment
                 }
+                else if (LinesOfCode[i] == "")
+                {
+                    // Do nothing - the line is blank
+                }
                 else
                 {
                     if (Line.Length > 3)
