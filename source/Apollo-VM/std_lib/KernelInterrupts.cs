@@ -59,7 +59,7 @@ namespace Apollo_IL.StandardLib
             }
             else
             {
-                Globals.console.WriteLine("Undocumented function" + command + "\nHalting for protection of data");
+                Globals.console.WriteLine("Undocumented function: " + command + "\nHalting for protection of data");
                 ParentVM.Halt();
             }
             #endregion

@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using FastColoredTextBoxNS;
 using AILCompiler = Lilac.Compiler;
 using System.IO;
 using ScintillaNET;
@@ -18,13 +17,23 @@ namespace Lilac.IDE
     {
         private DataTable Errors = new DataTable();
         private bool ErrorOccured = false;
-        TextStyle Register = new TextStyle(Brushes.Green, null, FontStyle.Bold);
-        TextStyle Char = new TextStyle(Brushes.Blue, null, FontStyle.Italic);
+        private bool AILMode = false;
+        private string Filename;
+        //TextStyle Register = new TextStyle(Brushes.Green, null, FontStyle.Bold);
+        //TextStyle Char = new TextStyle(Brushes.Blue, null, FontStyle.Italic);
 
         private void ErrorColours()
         {
             scintilla1.Styles[ScintillaNET.Style.Default].BackColor = Color.Red;
             scintilla1.Styles[ScintillaNET.Style.Default].ForeColor = Color.White;
+            scintilla1.StyleClearAll();
+            ErrorOccured = true;
+        }
+
+        private void NormalColours()
+        {
+            scintilla1.Styles[ScintillaNET.Style.Default].BackColor = Color.White;
+            scintilla1.Styles[ScintillaNET.Style.Default].ForeColor = Color.Black;
             scintilla1.StyleClearAll();
             ErrorOccured = true;
         }
@@ -36,21 +45,59 @@ namespace Lilac.IDE
             InitializeComponent();
         }
 
+        public MainWindow(string file)
+        {
+            SplashScreen sc = new SplashScreen();
+            sc.ShowDialog();
+            InitializeComponent();
+            FileDrop(file);
+        }
+
+        public void FileDrop (string fileToOpen)
+        {
+            try
+            {
+                if (File.Exists(fileToOpen))
+                {
+                    StreamReader sr = new StreamReader(File.OpenRead(fileToOpen));
+                    scintilla1.Text = sr.ReadToEnd();
+                    sr.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
         private void fastColoredTextBox1_Changed(object sender, EventArgs e)
         {
-            if (ErrorOccured == true)
+            if (AILMode == true)
             {
-                scintilla1.Styles[ScintillaNET.Style.Default].BackColor = Color.White;
-                scintilla1.Styles[ScintillaNET.Style.Default].ForeColor = Color.Black;
-                scintilla1.StyleClearAll();
+                checkSyntax();
+                if (ErrorOccured == true)
+                {
+                    ErrorColours();
+                }
+                else
+                {
+                    NormalColours();
+                }
+
+                //e.ChangedRange.ClearStyle(Register, Char);
+
+                //e.ChangedRange.SetStyle(Char, "\'\\\\?[A-Za-z0-9]\'");
+                //e.ChangedRange.SetStyle(Register, @" \b(PC|IP|SP|SS|AL|AH|BL|BH|CL|CH|A|B|C|X|Y)");
+                Errors.Clear();
+                ErrorOccured = false;
+            }
+            else
+            {
+                NormalColours();
+                Errors.Clear();
+                ErrorOccured = false;
             }
             
-            //e.ChangedRange.ClearStyle(Register, Char);
-            
-            //e.ChangedRange.SetStyle(Char, "\'\\\\?[A-Za-z0-9]\'");
-            //e.ChangedRange.SetStyle(Register, @" \b(PC|IP|SP|SS|AL|AH|BL|BH|CL|CH|A|B|C|X|Y)");
-            Errors.Clear();
-            ErrorOccured = false;
             PositionLbl.Text = "" + scintilla1.CurrentPosition;
         }
 
@@ -96,11 +143,6 @@ namespace Lilac.IDE
             scintilla1.SelectAll();
         }
 
-        private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
         private void buildToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Errors.Rows.Clear();
@@ -137,32 +179,86 @@ namespace Lilac.IDE
             }
         }
 
-        private void saveBinaryDialog_FileOk(object sender, CancelEventArgs e)
-        {
-            
-        }
-
-        private void saveSourceDialog_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void groupBox2_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void saveAsToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void debugToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            debugApp(true);
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            newDocument();
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openSourceFile.ShowDialog() == DialogResult.OK)
+            {
+                StreamReader sr = new StreamReader(File.OpenRead(openSourceFile.FileName));
+                scintilla1.Text = sr.ReadToEnd();
+                sr.Close();
+                this.Text = "Lilac IDE - " + openSourceFile.FileName;
+                CurrentFileLbl.Text = openSourceFile.FileName;
+                Filename = openSourceFile.FileName;
+                if (!openSourceFile.FileName.EndsWith(".lsf"))
+                {
+                    AILMode = false;
+                }
+                else
+                {
+                    AILMode = true;
+                }
+            }
+        }
+
+        private void NewFileToolStripLabel_Click(object sender, EventArgs e)
+        {
+            newDocument();
+        }
+
+
+        private void newDocument()
+        {
+            scintilla1.Text = "";
+            Errors.Clear();
+            this.Text = "Lilac IDE - Untitled";
+            CurrentFileLbl.Text = "";
+            Filename = "";
+        }
+
+        private void saveDocumentAs()
+        {
+            if (saveSourceDialog.ShowDialog() == DialogResult.OK)
+            {
+                StreamWriter sw = new StreamWriter(File.OpenWrite(saveSourceDialog.FileName));
+                sw.Write(scintilla1.Text);
+                sw.Close();
+                Filename = saveSourceDialog.FileName;
+            }
+        }
+
+        private void saveDocument()
+        {
+            if (Filename != "")
+            {
+                StreamWriter sw = new StreamWriter(File.OpenWrite(Filename));
+                sw.Write(scintilla1.Text);
+                sw.Close();
+            }
+            else
+            {
+
+                if (saveSourceDialog.ShowDialog() == DialogResult.OK)
+                {
+                    StreamWriter sw = new StreamWriter(File.OpenWrite(saveSourceDialog.FileName));
+                    sw.Write(scintilla1.Text);
+                    sw.Close();
+                    Filename = saveSourceDialog.FileName;
+                }
+            }
+
+        }
+
+        private void debugApp(bool DebugMode)
         {
             Console.Clear();
             Console.WriteLine("Starting...");
@@ -170,11 +266,14 @@ namespace Lilac.IDE
             try
             {
                 AILCompiler.Compiler SourceOutput = new AILCompiler.Compiler(scintilla1.Text);
-                Debugger Program = new Debugger(SourceOutput.Compile());
+                Debugger Program = new Debugger(SourceOutput.Compile(), DebugMode);
                 Program.Run();
             }
             catch (ArgumentException ex)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.White;
                 ErrorColours();
                 DataRow row = Errors.NewRow();
                 row["Message"] = ex.Message;
@@ -182,6 +281,10 @@ namespace Lilac.IDE
             }
             catch (AILCompiler.BuildException ex)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("Line number: " + ex.SrcLineNumber);
+                Console.ForegroundColor = ConsoleColor.White;
                 ErrorColours();
                 DataRow row = Errors.NewRow();
                 row["Message"] = ex.Message;
@@ -190,32 +293,103 @@ namespace Lilac.IDE
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.White;
                 ErrorColours();
                 DataRow row = Errors.NewRow();
                 row["Message"] = ex.Message;
                 Errors.Rows.Add(row);
             }
-            
         }
 
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        private void checkSyntax()
         {
-            scintilla1.Text = "";
-            Errors.Clear();
-            this.Text = "Lilac IDE - Untitled";
-            CurrentFileLbl.Text = "";
-        }
-
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            Console.Clear();
+            Errors.Rows.Clear();
+            try
             {
-                StreamReader sr = new StreamReader(File.OpenRead(openFileDialog1.FileName));
-                scintilla1.Text = sr.ReadToEnd();
-                sr.Close();
-                this.Text = "Lilac IDE - " + openFileDialog1.FileName;
-                CurrentFileLbl.Text = openFileDialog1.FileName;
+                AILCompiler.Compiler SourceOutput = new AILCompiler.Compiler(scintilla1.Text);
+                SourceOutput.Compile();
             }
+            catch (ArgumentException ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.White;
+                ErrorColours();
+                DataRow row = Errors.NewRow();
+                row["Message"] = ex.Message;
+                Errors.Rows.Add(row);
+            }
+            catch (AILCompiler.BuildException ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("Line number: " + ex.SrcLineNumber);
+                Console.ForegroundColor = ConsoleColor.White;
+                ErrorColours();
+                DataRow row = Errors.NewRow();
+                row["Message"] = ex.Message;
+                row["Line Number"] = ex.SrcLineNumber.ToString();
+                Errors.Rows.Add(row);
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.White;
+                ErrorColours();
+                DataRow row = Errors.NewRow();
+                row["Message"] = ex.Message;
+                Errors.Rows.Add(row);
+            }
+        }
+
+        private void SaveToolStripLabel_Click(object sender, EventArgs e)
+        {
+            saveDocument();
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveDocumentAs();
+        }
+
+        private void debugToolStripLabel_Click(object sender, EventArgs e)
+        {
+            debugApp(true);
+        }
+
+        private void toolStripLabel1_Click(object sender, EventArgs e)
+        {
+            debugApp(false);
+        }
+
+        private void runWithoutDebuggingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            debugApp(false);
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            About aboutForm = new About();
+            aboutForm.ShowDialog();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void printToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveDocument();
         }
     }
 }

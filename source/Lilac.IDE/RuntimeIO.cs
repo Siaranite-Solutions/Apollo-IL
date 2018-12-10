@@ -37,7 +37,9 @@ namespace Lilac.IDE
 
     class Debugger
     {
-        public Debugger(byte[] executable)
+        public bool DebugMode = true;
+
+        public Debugger(byte[] executable, bool verbose)
         {
             this.Program = executable;
         }
@@ -48,17 +50,22 @@ namespace Lilac.IDE
         {
             byte[] LoadedApplication = Program;
             Globals.console = new RuntimeIO();
-            Globals.DebugMode = false;
+            Globals.DebugMode = DebugMode;
             Console.Title = "Apollo-VM Runtime - Hello World!";
             try
             {
                 Executable.Run(LoadedApplication);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey(true);
+                Console.ForegroundColor = ConsoleColor.White;
             }
             catch (Exception ex)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(ex.Message + "\nPress any key to terminate...");
                 Console.ReadKey(true);
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.Clear();
             }
         }

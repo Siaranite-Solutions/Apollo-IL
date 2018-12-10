@@ -56,6 +56,7 @@
             this.buildToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buildToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runWithoutDebuggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.contentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.indexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,21 +67,28 @@
             this.saveBinaryDialog = new System.Windows.Forms.SaveFileDialog();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.scintilla1 = new ScintillaNET.Scintilla();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.scintilla1 = new ScintillaNET.Scintilla();
+            this.openSourceFile = new System.Windows.Forms.OpenFileDialog();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.PosLbl = new System.Windows.Forms.ToolStripStatusLabel();
-            this.PositionLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.FileLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.CurrentFileLbl = new System.Windows.Forms.ToolStripStatusLabel();
+            this.PosLbl = new System.Windows.Forms.ToolStripStatusLabel();
+            this.PositionLbl = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.NewFileToolStripLabel = new System.Windows.Forms.ToolStripLabel();
+            this.SaveToolStripLabel = new System.Windows.Forms.ToolStripLabel();
+            this.debugToolStripLabel = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.printDialog1 = new System.Windows.Forms.PrintDialog();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.statusStrip1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -93,7 +101,7 @@
             this.helpToolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(886, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -119,7 +127,7 @@
             this.newToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripMenuItem.Image")));
             this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.newToolStripMenuItem.Text = "&New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -128,60 +136,66 @@
             this.openToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripMenuItem.Image")));
             this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(134, 6);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripMenuItem.Image")));
             this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.saveToolStripMenuItem.Text = "&Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
+            this.saveAsToolStripMenuItem.Image = global::Lilac.IDE.Properties.Resources.Save;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.saveAsToolStripMenuItem.Text = "Save &As";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(134, 6);
             // 
             // printToolStripMenuItem1
             // 
             this.printToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripMenuItem1.Image")));
             this.printToolStripMenuItem1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.printToolStripMenuItem1.Name = "printToolStripMenuItem1";
-            this.printToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.printToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
             this.printToolStripMenuItem1.Text = "&Print";
+            this.printToolStripMenuItem1.Click += new System.EventHandler(this.printToolStripMenuItem1_Click);
             // 
             // printPreviewToolStripMenuItem1
             // 
             this.printPreviewToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("printPreviewToolStripMenuItem1.Image")));
             this.printPreviewToolStripMenuItem1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.printPreviewToolStripMenuItem1.Name = "printPreviewToolStripMenuItem1";
-            this.printPreviewToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.printPreviewToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
             this.printPreviewToolStripMenuItem1.Text = "Print Pre&view";
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(134, 6);
             // 
             // exitToolStripMenuItem
             // 
+            this.exitToolStripMenuItem.Image = global::Lilac.IDE.Properties.Resources._29206_141842_close;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -275,7 +289,8 @@
             // 
             this.buildToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buildToolStripMenuItem1,
-            this.debugToolStripMenuItem});
+            this.debugToolStripMenuItem,
+            this.runWithoutDebuggingToolStripMenuItem});
             this.buildToolStripMenuItem.Name = "buildToolStripMenuItem";
             this.buildToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
             this.buildToolStripMenuItem.Text = "Build";
@@ -283,16 +298,23 @@
             // buildToolStripMenuItem1
             // 
             this.buildToolStripMenuItem1.Name = "buildToolStripMenuItem1";
-            this.buildToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.buildToolStripMenuItem1.Size = new System.Drawing.Size(186, 22);
             this.buildToolStripMenuItem1.Text = "Build";
             this.buildToolStripMenuItem1.Click += new System.EventHandler(this.buildToolStripMenuItem1_Click);
             // 
             // debugToolStripMenuItem
             // 
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
-            this.debugToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.debugToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.debugToolStripMenuItem.Text = "Debug";
             this.debugToolStripMenuItem.Click += new System.EventHandler(this.debugToolStripMenuItem_Click);
+            // 
+            // runWithoutDebuggingToolStripMenuItem
+            // 
+            this.runWithoutDebuggingToolStripMenuItem.Name = "runWithoutDebuggingToolStripMenuItem";
+            this.runWithoutDebuggingToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.runWithoutDebuggingToolStripMenuItem.Text = "Run without Debugging";
+            this.runWithoutDebuggingToolStripMenuItem.Click += new System.EventHandler(this.runWithoutDebuggingToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem1
             // 
@@ -334,34 +356,35 @@
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // saveSourceDialog
             // 
             this.saveSourceDialog.DefaultExt = "lsf";
-            this.saveSourceDialog.Filter = "Apollo IL Source File|*.lsf";
+            this.saveSourceDialog.Filter = "Apollo IL Source File|*.lsf|Text files (*.txt)|*.txt|All files (*.*)|*.*";
             this.saveSourceDialog.Title = "Save Source...";
-            this.saveSourceDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveSourceDialog_FileOk);
             // 
             // saveBinaryDialog
             // 
             this.saveBinaryDialog.DefaultExt = "ila";
             this.saveBinaryDialog.Filter = "Apollo IL Binary|*.ila";
             this.saveBinaryDialog.Title = "Save Apollo-IL Binary Executable...";
-            this.saveBinaryDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveBinaryDialog_FileOk);
             // 
             // tableLayoutPanel1
             // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 24);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 52);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 76.32743F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 23.67257F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(800, 452);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(886, 478);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // groupBox1
@@ -370,18 +393,27 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(794, 338);
+            this.groupBox1.Size = new System.Drawing.Size(880, 358);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Source View";
+            // 
+            // scintilla1
+            // 
+            this.scintilla1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scintilla1.Location = new System.Drawing.Point(3, 16);
+            this.scintilla1.Margins.Left = 16;
+            this.scintilla1.Name = "scintilla1";
+            this.scintilla1.Size = new System.Drawing.Size(874, 339);
+            this.scintilla1.TabIndex = 0;
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.dataGridView1);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(3, 347);
+            this.groupBox2.Location = new System.Drawing.Point(3, 367);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(794, 102);
+            this.groupBox2.Size = new System.Drawing.Size(880, 108);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Build Messages";
@@ -396,21 +428,13 @@
             this.dataGridView1.Location = new System.Drawing.Point(3, 16);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(788, 83);
+            this.dataGridView1.Size = new System.Drawing.Size(874, 89);
             this.dataGridView1.TabIndex = 0;
             // 
-            // openFileDialog1
+            // openSourceFile
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // scintilla1
-            // 
-            this.scintilla1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scintilla1.Location = new System.Drawing.Point(3, 16);
-            this.scintilla1.Margins.Left = 16;
-            this.scintilla1.Name = "scintilla1";
-            this.scintilla1.Size = new System.Drawing.Size(788, 319);
-            this.scintilla1.TabIndex = 0;
+            this.openSourceFile.DefaultExt = "lsf";
+            this.openSourceFile.Filter = "Apollo IL Source File|*.lsf|Text files (*.txt)|*.txt|All files (*.*)|*.*";
             // 
             // statusStrip1
             // 
@@ -419,22 +443,11 @@
             this.CurrentFileLbl,
             this.PosLbl,
             this.PositionLbl});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 454);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 533);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(800, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(886, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // PosLbl
-            // 
-            this.PosLbl.Name = "PosLbl";
-            this.PosLbl.Size = new System.Drawing.Size(48, 17);
-            this.PosLbl.Text = "Position:";
-            // 
-            // PositionLbl
-            // 
-            this.PositionLbl.Name = "PositionLbl";
-            this.PositionLbl.Size = new System.Drawing.Size(0, 17);
             // 
             // FileLbl
             // 
@@ -447,11 +460,71 @@
             this.CurrentFileLbl.Name = "CurrentFileLbl";
             this.CurrentFileLbl.Size = new System.Drawing.Size(0, 17);
             // 
+            // PosLbl
+            // 
+            this.PosLbl.Name = "PosLbl";
+            this.PosLbl.Size = new System.Drawing.Size(48, 17);
+            this.PosLbl.Text = "Position:";
+            // 
+            // PositionLbl
+            // 
+            this.PositionLbl.Name = "PositionLbl";
+            this.PositionLbl.Size = new System.Drawing.Size(0, 17);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.NewFileToolStripLabel,
+            this.SaveToolStripLabel,
+            this.debugToolStripLabel,
+            this.toolStripLabel1});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(886, 25);
+            this.toolStrip1.TabIndex = 0;
+            // 
+            // NewFileToolStripLabel
+            // 
+            this.NewFileToolStripLabel.Image = global::Lilac.IDE.Properties.Resources.New_document1;
+            this.NewFileToolStripLabel.Name = "NewFileToolStripLabel";
+            this.NewFileToolStripLabel.Size = new System.Drawing.Size(44, 22);
+            this.NewFileToolStripLabel.Text = "New";
+            this.NewFileToolStripLabel.Click += new System.EventHandler(this.NewFileToolStripLabel_Click);
+            // 
+            // SaveToolStripLabel
+            // 
+            this.SaveToolStripLabel.Image = global::Lilac.IDE.Properties.Resources.Save;
+            this.SaveToolStripLabel.Name = "SaveToolStripLabel";
+            this.SaveToolStripLabel.Size = new System.Drawing.Size(47, 22);
+            this.SaveToolStripLabel.Text = "Save";
+            this.SaveToolStripLabel.Click += new System.EventHandler(this.SaveToolStripLabel_Click);
+            // 
+            // debugToolStripLabel
+            // 
+            this.debugToolStripLabel.Image = global::Lilac.IDE.Properties.Resources.buildAndRunToolStripMenuItem_Image;
+            this.debugToolStripLabel.Name = "debugToolStripLabel";
+            this.debugToolStripLabel.Size = new System.Drawing.Size(54, 22);
+            this.debugToolStripLabel.Text = "Debug";
+            this.debugToolStripLabel.Click += new System.EventHandler(this.debugToolStripLabel_Click);
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Image = global::Lilac.IDE.Properties.Resources.buildAndRunToolStripMenuItem_Image;
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(135, 22);
+            this.toolStripLabel1.Text = "Run without Debugging";
+            this.toolStripLabel1.Click += new System.EventHandler(this.toolStripLabel1_Click);
+            // 
+            // printDialog1
+            // 
+            this.printDialog1.UseEXDialog = true;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 476);
+            this.ClientSize = new System.Drawing.Size(886, 555);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.menuStrip1);
@@ -468,6 +541,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -491,7 +566,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.OpenFileDialog openSourceFile;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
@@ -521,6 +596,13 @@
         private System.Windows.Forms.ToolStripStatusLabel CurrentFileLbl;
         private System.Windows.Forms.ToolStripStatusLabel PosLbl;
         private System.Windows.Forms.ToolStripStatusLabel PositionLbl;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripLabel debugToolStripLabel;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripLabel SaveToolStripLabel;
+        private System.Windows.Forms.ToolStripLabel NewFileToolStripLabel;
+        private System.Windows.Forms.ToolStripMenuItem runWithoutDebuggingToolStripMenuItem;
+        private System.Windows.Forms.PrintDialog printDialog1;
     }
 }
 

@@ -187,6 +187,7 @@ namespace Apollo_IL
                 }
             }
             Running = false;
+            Halt();
 		}
 
         public void Halt()
