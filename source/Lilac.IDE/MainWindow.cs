@@ -88,8 +88,9 @@ namespace Lilac.IDE
         //TextStyle Register = new TextStyle(Brushes.Green, null, FontStyle.Bold);
         //TextStyle Char = new TextStyle(Brushes.Blue, null, FontStyle.Italic);
 
-        #endregion 
+        #endregion
 
+        #region Editor Methods
         private void ErrorColours()
         {
             if (GetCurrentDocument != null)
@@ -111,6 +112,7 @@ namespace Lilac.IDE
                 ErrorOccured = true;
             }
         }
+        #endregion
 
         public MainWindow()
         {
@@ -147,7 +149,7 @@ namespace Lilac.IDE
             }
         }
 
-        private void fastColoredTextBox1_Changed(object sender, EventArgs e)
+        private void FastColoredTextBox1_Changed(object sender, EventArgs e)
         {
             if (AILMode == true)
             {
@@ -187,7 +189,7 @@ namespace Lilac.IDE
             Console.WriteLine("Loaded successfully!");
             CurrentFileLbl.Text = "Untitled";
             GetCurrentDocument.Margins[0].Width = 16;
-            GetCurrentDocument.TextChanged += this.fastColoredTextBox1_Changed;
+            GetCurrentDocument.TextChanged += this.FastColoredTextBox1_Changed;
             groupBox1.Text = "";
         }
 
@@ -406,7 +408,7 @@ namespace Lilac.IDE
                 Errors.Rows.Clear();
                 try
                 {
-                    AILCompiler.Compiler SourceOutput = new AILCompiler.Compiler(GetCurrentDocument.Text);
+                    AILCompiler.Compiler SourceOutput = new AILCompiler.Compiler(GetCurrentDocument.Text + "\nKEI 2");
                     Debugger Program = new Debugger(SourceOutput.Compile(), DebugMode);
                     Program.Run();
                 }
@@ -453,7 +455,7 @@ namespace Lilac.IDE
                 Errors.Rows.Clear();
                 try
                 {
-                    AILCompiler.Compiler SourceOutput = new AILCompiler.Compiler(GetCurrentDocument.Text);
+                    AILCompiler.Compiler SourceOutput = new AILCompiler.Compiler(GetCurrentDocument.Text + "\nKEI 2");
                     SourceOutput.Compile();
                 }
                 catch (ArgumentException ex)
