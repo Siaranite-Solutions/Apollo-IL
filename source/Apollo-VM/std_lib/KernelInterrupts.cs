@@ -16,7 +16,7 @@ namespace Apollo_IL.StandardLib
             {
                 if (Globals.DebugMode == true)
                 {
-                    Globals.console.Write("KEI 0x01");
+                    Globals.console.Write("KEI 0x01: ");
                 }
                 if (ParentVM.AL == 0x01)
                 {
@@ -33,9 +33,12 @@ namespace Apollo_IL.StandardLib
                     {
                         toPrint += (char)toConvert[i];
                     }
-                    Globals.console.Write(toPrint);
                     if (Globals.DebugMode == true)
+                    {
                         Globals.console.WriteLine(" 0x02");
+                    }
+                    Globals.console.Write(toPrint);
+                    
                 }
                 else if (ParentVM.AL == 0x03)
                 {
@@ -55,6 +58,11 @@ namespace Apollo_IL.StandardLib
             }
             else if (command == 0x02)
             {
+                if (Globals.DebugMode == true)
+                {
+                    Globals.console.Write("KEI 0x02: ");
+                }
+                Globals.console.WriteLine("Halting!");
                 ParentVM.Halt();
             }
             else

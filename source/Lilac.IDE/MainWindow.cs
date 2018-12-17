@@ -33,6 +33,8 @@ namespace Lilac.IDE
             tabControl1.TabPages.Add(NewPage);
             groupBox1.Text = "Source View";
             tabControl1.SelectedTab = NewPage;
+            GetCurrentDocument.Margins[0].Width = 16;
+            GetCurrentDocument.TextChanged += this.FastColoredTextBox1_Changed;
         }
 
         private void RemoveTab()
@@ -154,13 +156,13 @@ namespace Lilac.IDE
             if (AILMode == true)
             {
                 CheckSyntax();
-                if (ErrorOccured == true)
+                if (ErrorOccured != true)
                 {
-                    ErrorColours();
+                    NormalColours();
                 }
                 else
                 {
-                    NormalColours();
+                    
                 }
 
                 //e.ChangedRange.ClearStyle(Register, Char);
@@ -188,8 +190,6 @@ namespace Lilac.IDE
             dataGridView1.DataSource = Errors;
             Console.WriteLine("Loaded successfully!");
             CurrentFileLbl.Text = "Untitled";
-            GetCurrentDocument.Margins[0].Width = 16;
-            GetCurrentDocument.TextChanged += this.FastColoredTextBox1_Changed;
             groupBox1.Text = "";
         }
 
