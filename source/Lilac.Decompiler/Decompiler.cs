@@ -201,14 +201,11 @@ namespace Lilac.Decompiler
         /// The executable passed to the Decompile() method
         /// </summary>
         private byte[] Executable;
+        
         /// <summary>
         /// Each line of code split into array
         /// </summary>
         private string SourceCode;
-        /// <summary>
-        /// Parts of the current line of code, split via spaces
-        /// </summary>
-        private byte Op;
 
         /// <summary>
         /// Method compiling the source into the bytecode executable
@@ -261,28 +258,43 @@ namespace Lilac.Decompiler
                         }
                         else if (AddressMode == AddressMode.ValueRegister)
                         {
-                            char[] value = new char[] { (char)operation[1], (char)operation[2], (char)operation[3], (char)operation[4] };
-                            param1 = new string(value);
+                            int num = 0;
+                            byte[] value = new byte[] { operation[1], operation[2], operation[3], operation[4] };
+                            foreach (byte b in value)
+                            {
+                                num += b;
+                            }
+                            param1 = num.ToString();
 
                             param2 = GetRegister(operation[5]);
-                            /*
-                            char p2 = (char) operation[5];
-                            char[] p = new char[] { p2 };
-                            param2 = new string(p);
-                            */
                         }
                         else if (AddressMode == AddressMode.RegisterValue)
                         {
                             param1 = GetRegister(operation[1]);
-                            char[] value = new char[] { (char)operation[2], (char)operation[3], (char)operation[4], (char)operation[5] };
-                            param2 = new string(value);
+                            byte[] value = new byte[] { operation[2], operation[3], operation[4], operation[5] };
+                            int num = 0;
+                            foreach (byte b in value)
+                            {
+                                num += b;
+                            }
+                            param2 = num.ToString();
                         }
                         else if (AddressMode == AddressMode.ValueValue)
                         {
-                            char[] value1 = new char[] { (char)operation[2], (char)operation[3] };
-                            char[] value2 = new char[] { (char)operation[4], (char)operation[5] };
-                            param1 = new string(value1);
-                            param2 = new string(value2);
+                            byte[] value1 = new byte[] { operation[2], operation[3] };
+                            int num1 = 0;
+                            foreach (byte b in value1)
+                            {
+                                num1 += b;
+                            }
+                            byte[] value2 = new byte[] { operation[4], operation[5] };
+                            int num2 = 0;
+                            foreach (byte b in value2)
+                            {
+                                num2 += b;
+                            }
+                            param1 = num1.ToString();
+                            param2 = num2.ToString();
                         }
 
                         Line = instr + " " + param1 + " " + param2 + "\n";
