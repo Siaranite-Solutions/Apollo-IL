@@ -10,6 +10,7 @@ namespace Apollo_IL.StandardLib
 
         public static void HandleInterrupt(int command)
         {
+
         }
     }
 }

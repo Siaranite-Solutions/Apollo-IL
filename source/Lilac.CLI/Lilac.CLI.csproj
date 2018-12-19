@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Lilac.Decompiler\Lilac.Decompiler.csproj" />
     <ProjectReference Include="..\Lilac.Compiler\Lilac.Compiler.csproj" />
   </ItemGroup>
 
