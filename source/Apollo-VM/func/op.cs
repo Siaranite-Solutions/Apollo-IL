@@ -107,104 +107,107 @@ namespace Apollo_IL
                 PC += 5;
             }
             #endregion
-            #region [Unfinished] SUB (Subtract, 0x05)
-            else if (opcode == (byte)0x05)
+            if (Globals.DebugMode == true)
             {
-                if (opMode == AddressMode.RegVal)
+                #region [Unfinished] SUB (Subtract, 0x05)
+                if (opcode == (byte)0x05)
                 {
-                    SetRegister(ram.memory[IP + 1], (GetRegister(ram.memory[IP + 1]) - Get32BitParameter(IP + 2)));
+                    if (opMode == AddressMode.RegVal)
+                    {
+                        SetRegister(ram.memory[IP + 1], (GetRegister(ram.memory[IP + 1]) - Get32BitParameter(IP + 2)));
+                    }
+                    else if (opMode == AddressMode.RegReg)
+                    {
+                        SetRegister(ram.memory[IP + 1], (GetRegister(ram.memory[IP + 1]) - GetRegister(ram.memory[IP + 2])));
+                    }
+                    else
+                    {
+                        throw new Exception("[CRITICAL ERROR] The instruction SUB does not support addressing mode: " + AdMode);
+                    }
+                    PC += 5;
                 }
-                else if (opMode == AddressMode.RegReg)
+                #endregion
+                #region [Unfinished] MUL (Multiply, 0x30)
+                else if (opcode == (byte)0x30)
                 {
-                    SetRegister(ram.memory[IP + 1], (GetRegister(ram.memory[IP + 1]) - GetRegister(ram.memory[IP + 2])));
+                    if (opMode == AddressMode.RegVal)
+                    {
+                        SetRegister(ram.memory[IP + 1], (GetRegister(ram.memory[IP + 1]) * Get32BitParameter(IP + 2)));
+                    }
+                    else if (opMode == AddressMode.RegReg)
+                    {
+                        SetRegister(ram.memory[IP + 1], (GetRegister(ram.memory[IP + 1]) * GetRegister(ram.memory[IP + 2])));
+                    }
+                    else
+                    {
+                        throw new Exception("[CRITICAL ERROR] The instruction MUL does not support addressing mode: " + AdMode);
+                    }
+                    PC += 5;
                 }
-                else
+                #endregion
+                #region [Unfinished] DIV (Divide, 0x31)
+                else if (opcode == (byte)0x31)
                 {
-                    throw new Exception("[CRITICAL ERROR] The instruction SUB does not support addressing mode: " + AdMode);
+                    if (opMode == AddressMode.RegVal)
+                    {
+                        SetRegister(ram.memory[IP + 1], (GetRegister(ram.memory[IP + 1]) / Get32BitParameter(IP + 2)));
+                    }
+                    else if (opMode == AddressMode.RegReg)
+                    {
+                        SetRegister(ram.memory[IP + 1], (GetRegister(ram.memory[IP + 1]) / GetRegister(ram.memory[IP + 2])));
+                    }
+                    else
+                    {
+                        throw new Exception("[CRITICAL ERROR] The instruction DIV does not support addressing mode: " + AdMode);
+                    }
+                    PC += 5;
                 }
-                PC += 5;
+                #endregion
+                #region [Unfinished] INC (Increment, 0x08)
+                else if (opcode == (byte)0x08)
+                {
+                    if (opMode == AddressMode.RegVal)
+                    {
+                        int i = GetRegister(ram.memory[IP + 1]);
+                        i++;
+                        SetRegister(ram.memory[IP + 1], i);
+                    }
+                    else if (opMode == AddressMode.RegReg)
+                    {
+                        int i = GetRegister(ram.memory[IP + 1]);
+                        i++;
+                        SetRegister(ram.memory[IP + 1], i);
+                    }
+                    else
+                    {
+                        throw new Exception("[CRITICAL ERROR] The instruction INC does not support addressing mode: " + AdMode);
+                    }
+                    PC += 5;
+                }
+                #endregion
+                #region [Unfinished] DEC (Decrement, 0x09)
+                else if (opcode == (byte)0x08)
+                {
+                    if (opMode == AddressMode.RegVal)
+                    {
+                        int i = GetRegister(ram.memory[IP + 1]);
+                        i--;
+                        SetRegister(ram.memory[IP + 1], i);
+                    }
+                    else if (opMode == AddressMode.RegReg)
+                    {
+                        int i = GetRegister(ram.memory[IP + 1]);
+                        i--;
+                        SetRegister(ram.memory[IP + 1], i);
+                    }
+                    else
+                    {
+                        throw new Exception("[CRITICAL ERROR] The instruction INC does not support addressing mode: " + AdMode);
+                    }
+                    PC += 5;
+                }
+                #endregion
             }
-            #endregion
-            #region [Unfinished] MUL (Multiply, 0x30)
-            else if (opcode == (byte)0x30)
-            {
-                if (opMode == AddressMode.RegVal)
-                {
-                    SetRegister(ram.memory[IP + 1], (GetRegister(ram.memory[IP + 1]) * Get32BitParameter(IP + 2)));
-                }
-                else if (opMode == AddressMode.RegReg)
-                {
-                    SetRegister(ram.memory[IP + 1], (GetRegister(ram.memory[IP + 1]) * GetRegister(ram.memory[IP + 2])));
-                }
-                else
-                {
-                    throw new Exception("[CRITICAL ERROR] The instruction MUL does not support addressing mode: " + AdMode);
-                }
-                PC += 5;
-            }
-            #endregion
-            #region [Unfinished] DIV (Divide, 0x31)
-            else if (opcode == (byte)0x31)
-            {
-                if (opMode == AddressMode.RegVal)
-                {
-                    SetRegister(ram.memory[IP + 1], (GetRegister(ram.memory[IP + 1]) / Get32BitParameter(IP + 2)));
-                }
-                else if (opMode == AddressMode.RegReg)
-                {
-                    SetRegister(ram.memory[IP + 1], (GetRegister(ram.memory[IP + 1]) / GetRegister(ram.memory[IP + 2])));
-                }
-                else
-                {
-                    throw new Exception("[CRITICAL ERROR] The instruction DIV does not support addressing mode: " + AdMode);
-                }
-                PC += 5;
-            }
-            #endregion
-            #region [Unfinished] INC (Increment, 0x08)
-            else if (opcode == (byte)0x08)
-            {
-                if (opMode == AddressMode.RegVal)
-                {
-                    int i = GetRegister(ram.memory[IP + 1]);
-                    i++;
-                    SetRegister(ram.memory[IP + 1], i);
-                }
-                else if (opMode == AddressMode.RegReg)
-                {
-                    int i = GetRegister(ram.memory[IP + 1]);
-                    i++;
-                    SetRegister(ram.memory[IP + 1], i);
-                }
-                else
-                {
-                    throw new Exception("[CRITICAL ERROR] The instruction INC does not support addressing mode: " + AdMode);
-                }
-                PC += 5;
-            }
-            #endregion
-            #region [Unfinished] DEC (Decrement, 0x09)
-            else if (opcode == (byte)0x08)
-            {
-                if (opMode == AddressMode.RegVal)
-                {
-                    int i = GetRegister(ram.memory[IP + 1]);
-                    i--;
-                    SetRegister(ram.memory[IP + 1], i);
-                }
-                else if (opMode == AddressMode.RegReg)
-                {
-                    int i = GetRegister(ram.memory[IP + 1]);
-                    i--;
-                    SetRegister(ram.memory[IP + 1], i);
-                }
-                else
-                {
-                    throw new Exception("[CRITICAL ERROR] The instruction INC does not support addressing mode: " + AdMode);
-                }
-                PC += 5;
-            }
-            #endregion
             #endregion
 
             #region Flow Operations
@@ -236,68 +239,73 @@ namespace Apollo_IL
             #endregion
             #endregion
 
-            #region Stack Control
-            #region [Incomplete] PSH (Push, 0x20)
-            else if (opcode == 0x20)
+            if (Globals.DebugMode == true)
             {
+                #region Stack Control
+                #region [Incomplete] PSH (Push, 0x20)
+                if (opcode == 0x20)
+                {
 
+                }
+                #endregion
+                #region [Incomplete] POP (Pop, 0x21)
+                else if (opcode == 0x21)
+                {
+
+                }
+                #endregion
+                #endregion
+                
+                #region I/O
+                #region [Incomplete] INB (Software Interrupt, 0x24)
+                else if (opcode == 0x24)
+                {
+                }
+                #endregion
+                #region [Incomplete] INW (Software Interrupt, 0x25)
+                else if (opcode == 0x25)
+                {
+
+                }
+                #endregion
+                #region [Incomplete] IND (Software Interrupt, 0x26)
+                else if (opcode == 0x26)
+                {
+
+                }
+                #endregion
+
+                #region [Incomplete] OUB (Software Interrupt, 0x27)
+                else if (opcode == 0x27)
+                {
+
+                }
+                #endregion
+                #region [Incomplete] OUW (Software Interrupt, 0x28)
+                else if (opcode == 0x28)
+                {
+
+                }
+                #endregion
+                #region [Incomplete] OUD (Software Interrupt, 0x29)
+                else if (opcode == 0x29)
+                {
+
+                }
+                #endregion
+                #endregion
             }
-            #endregion
-            #region [Incomplete] POP (Pop, 0x21)
-            else if (opcode == 0x21)
-            {
-
-            }
-            #endregion
-            #endregion
-
-            #region I/O
-            #region [Incomplete] INB (Software Interrupt, 0x24)
-            else if (opcode == 0x24)
-            {
-
-            }
-            #endregion
-            #region [Incomplete] INW (Software Interrupt, 0x25)
-            else if (opcode == 0x25)
-            {
-
-            }
-            #endregion
-            #region [Incomplete] IND (Software Interrupt, 0x26)
-            else if (opcode == 0x26)
-            {
-
-            }
-            #endregion
-
-            #region [Incomplete] OUB (Software Interrupt, 0x27)
-            else if (opcode == 0x27)
-            {
-
-            }
-            #endregion
-            #region [Incomplete] OUW (Software Interrupt, 0x28)
-            else if (opcode == 0x28)
-            {
-
-            }
-            #endregion
-            #region [Incomplete] OUD (Software Interrupt, 0x29)
-            else if (opcode == 0x29)
-            {
-
-            }
-            #endregion
-            #endregion
 
             #region Interrupts
-            #region [Incomplete] SWI (Software Interrupt, 0x2A)
-            else if (opcode == (byte)0x2A)
+            if (Globals.DebugMode == true)
             {
+                #region [Incomplete] SWI (Software Interrupt, 0x2A)
+                if (opcode == (byte)0x2A)
+                {
 
+                }
+                #endregion
             }
-            #endregion
             #region [COMPLETE] KEI (Kernel Interrupt, 0x2B)
             else if (opcode == (byte)0x2B)
             {
@@ -314,6 +322,7 @@ namespace Apollo_IL
             {
                 throw new Exception("[ERROR] The instruction at " + IP + " (" + opcode + ") is not supported by the Apollo IL Runtime");
             }
+
             NewIP = 0;
             return NewIP;
         }

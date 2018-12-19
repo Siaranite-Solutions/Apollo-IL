@@ -130,6 +130,7 @@ namespace Apollo_IL
 			PC = 1;
 			// Sets the parent virtual machine for the standard library to this instance
 			KernelInterrupts.ParentVM = this;
+            SoftwareInterrupts.ParentVM = this;
 			//Loads the executable into the Virtual Machine's memory through LoadApplication()
 			LoadApplication(executable);
 		}
