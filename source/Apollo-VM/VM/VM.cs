@@ -191,6 +191,12 @@ namespace Apollo_IL
             Halt();
 		}
 
+        public void ExecuteAtAddress(byte addr)
+        {
+            IP = addr;
+            Execute();
+        }
+
         public void Halt()
         {
             ram.memory[IP] = 0x00;
