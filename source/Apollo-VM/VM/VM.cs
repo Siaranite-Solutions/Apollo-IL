@@ -191,6 +191,19 @@ namespace Apollo_IL
             Halt();
 		}
 
+        // Useful for stepping in monitor or debugging modes
+        public void Tick()
+        {
+            if (ram.memory[IP] != 0x00)
+            {
+                byte opcode = (byte) GetFirstSix((ram.memory[IP]));
+                GetAddressMode(ram.memory[IP]);
+                ParseOpcode(opcode);
+                IP = PC;
+                PC++;
+            }
+        }
+
         public void ExecuteAtAddress(byte addr)
         {
             IP = addr;
