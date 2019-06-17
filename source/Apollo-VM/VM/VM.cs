@@ -88,7 +88,7 @@ namespace Apollo_IL
         public Int32 Y;
         #endregion
 
-        private bool Running = false;
+        public bool Running = false;
 	
 		/// <summary>
 		/// Loads the application as a byte array into the virtual machine's memory
