@@ -142,7 +142,7 @@ namespace Apollo_IL
         /// Gets the current address mode from the specified byte
         /// </summary>
         /// <param name="b">Address mode byte</param>
-        private void GetAddressMode(byte b)
+        public void GetAddressMode(byte b)
         {
             AdMode = GetLastTwo(b);
             if (AdMode == 0)
@@ -221,7 +221,7 @@ namespace Apollo_IL
         /// </summary>
         /// <param name="b"></param>
         /// <returns></returns>
-        private int GetLastTwo(byte b)
+        public int GetLastTwo(byte b)
         {
             byte c = 0;
             for (int i = 7; i > 5; i--)
@@ -241,7 +241,7 @@ namespace Apollo_IL
         /// </summary>
         /// <param name="b"></param>
         /// <returns></returns>
-        private int GetFirstSix(byte b)
+        public int GetFirstSix(byte b)
         {
             for (int i = 0; i < 6; i++)
             {

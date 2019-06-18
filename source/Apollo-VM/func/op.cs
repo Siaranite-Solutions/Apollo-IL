@@ -11,7 +11,7 @@ namespace Apollo_IL
         /// </summary>
         /// <param name="opcode"></param>
         /// <returns>Byte of opcode</returns>
-        private byte ParseOpcode(byte opcode)
+        public byte ParseOpcode(byte opcode)
         {
             #region Register Operations
             #region [COMPLETE] MOV (Move, 0x01)
